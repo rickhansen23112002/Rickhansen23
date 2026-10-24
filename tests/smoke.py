@@ -15,7 +15,7 @@ with sync_playwright() as p:
  page.reload();page.wait_for_timeout(750)
  assert page.locator('#boardTabs button').count()==2
  assert page.locator('#boardName').input_value()=='Mijn training'
- with page.expect_download() as info:page.locator('#save').click()
+ with page.expect_download() as info:page.locator('#exportProject').click()
  download=info.value;data=json.load(open(download.path()));assert len(data['boards'])==2
  with page.expect_download() as info:page.locator('#png').click()
  assert open(info.value.path(),'rb').read(8)==b'\x89PNG\r\n\x1a\n'

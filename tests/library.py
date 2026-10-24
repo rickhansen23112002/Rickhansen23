@@ -3,10 +3,10 @@ import json, os
 with sync_playwright() as p:
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox'])
  context=browser.new_context(accept_downloads=True,service_workers='block')
- page=context.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
- page.goto(os.environ.get('PPA_TEST_URL','http://localhost:18761'));page.locator('#openLibrary').click()
+ page=context.new_page();downloads=[];page.on('download',lambda download:downloads.append(download));errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
+ page.goto(os.environ.get('PPA_TEST_URL','http://localhost:18761'));page.locator('#save').click();expect(page.locator('#fileLibrary')).to_be_visible()
  page.locator('#libraryName').fill('Trainingen');page.locator('#libraryFolder').click();page.get_by_role('button',name='Open map',exact=True).click()
- page.locator('#libraryName').fill('Dinsdag');page.locator('#librarySave').click();page.get_by_text('Dinsdag.json',exact=False).first.wait_for()
+ page.locator('#libraryName').fill('Dinsdag');page.locator('#librarySave').click();page.get_by_text('Dinsdag.json',exact=False).first.wait_for();assert not downloads, 'Opslaan in app must not trigger a download'
  page.locator('#libraryFiles').set_input_files({'name':'notities.txt','mimeType':'text/plain','buffer':b'Mijn training'})
  page.get_by_text('notities.txt',exact=False).first.wait_for();expect(page.locator('.library-row')).to_have_count(2)
  page.reload();page.locator('#openLibrary').click();page.get_by_role('button',name='Open map',exact=True).click();expect(page.locator('.library-row')).to_have_count(2)

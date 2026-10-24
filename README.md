@@ -15,7 +15,7 @@ De app werkt na het eerste laden ook offline via de browsercache. De starter is 
 
 ## Projecten bewaren
 
-Wijzigingen worden automatisch lokaal in dezelfde browser en hetzelfde profiel bewaard. Heropenen herstelt het laatste project. Dit is geen externe back-up: maak regelmatig een JSON-bestand met **Project opslaan**. Browsergegevens wissen kan je lokale project verwijderen. Bestaande JSON-projecten kun je via **Open project** laden. PNG en WebM-export blijven beschikbaar; browserondersteuning kan verschillen.
+Wijzigingen worden automatisch lokaal in dezelfde browser en hetzelfde profiel bewaard. Heropenen herstelt het laatste project. Dit is geen externe back-up: maak regelmatig een JSON-bestand met **JSON-back-up**. Browsergegevens wissen kan je lokale project verwijderen. Bestaande JSON-projecten kun je via **Open project** laden. PNG en WebM-export blijven beschikbaar; browserondersteuning kan verschillen.
 
 ## Ontwikkelen
 
@@ -31,6 +31,8 @@ Geen npm-installatie of build nodig. De app kan ook op een HTTPS-host worden gep
 Bij updates: wijzig de cachenaam in `sw.js`. Sluit alle appvensters en open opnieuw om de nieuwe serviceworker te activeren. De appbestanden zitten ook in de Windows-starter ingebouwd. Na wijzigingen bouw je deze opnieuw met Go: `GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -o PPA_Tactical_Studio_Windows.exe launcher.go`.
 
 ## Mijn bestanden: opslaan in de app
+
+Klik op **Opslaan in app** om het huidige project in je bibliotheek te bewaren. Deze knop downloadt geen bestand. **JSON-back-up** downloadt juist een losse back-up naar je laptop.
 
 Klik op **Mijn bestanden**, vul een naam in en kies **Map maken**. Open de map, vul een projectnaam in en kies **Huidig project hier opslaan**. Je project staat nu in de app en blijft na afsluiten beschikbaar. Een opgeslagen project is een momentopname: sla het na aanpassingen opnieuw onder dezelfde naam op om het te vervangen.
 
@@ -48,3 +50,5 @@ Dubbelklik met Selecteren op een doel om de breedte en richting te wijzigen. Kie
 De selectieknoppen noemen het eigen team en de tegenstander, met rondjes in de ingestelde teamkleuren. Een teamkleur wijzigen laat de rondjes meteen meeveranderen. Een individuele magneetkleur kan via dubbelklik worden gekozen; opnieuw de teamkleur instellen maakt alle magneten van dat team weer gelijk.
 
 Presenteren toont de naam van het huidige bord boven het veld, buiten het speelvlak. Het volledige bord schaalt mee met de beschikbare ruimte.
+
+Versie 2.4 is herkenbaar aan het versienummer bovenaan en de knop **Opslaan in app**. Staat er na bijwerken nog een oudere versie? Sluit de oude starter, start de nieuwe en vernieuw één keer met Ctrl+Shift+R. De app bewaart projecten lokaal in de browserbibliotheek, zonder losse bestanden naar Downloads te schrijven. Er is geen cloudopslag of synchronisatie tussen apparaten.

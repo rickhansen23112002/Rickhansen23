@@ -66,10 +66,12 @@ async function putFile(name,blob,project){
  if(existing&&!confirm('“'+name+'” bestaat al. Dit bestand vervangen?'))return false;
  await transaction('readwrite',store=>store.put({id:existing?.id||id(),name,parent:current,kind:'file',blob,project,updated:Date.now()}));await refresh();return true;
 }
-$('openLibrary').onclick=()=>{dialog.showModal();status('Bibliotheek laden…');run(async()=>{await refresh();status('');});};
+function openLibrary(saving=false){dialog.showModal();status('Bibliotheek laden…');run(async()=>{await refresh();if(saving){const project=window.ppaProjects.capture();$('libraryName').value=project.boards[project.activeBoard]?.title||'Mijn project';status('Kies een map en klik op Huidig project hier opslaan. Het project blijft in de app.');$('libraryName').focus();$('libraryName').select();}else status('');});}
+$('openLibrary').onclick=()=>openLibrary();
+$('save').onclick=()=>openLibrary(true);
 $('libraryClose').onclick=()=>dialog.close();
 $('libraryFolder').onclick=()=>run(async()=>{const name=$('libraryName').value.trim();if(!name)throw Error('Vul eerst een naam in');if(duplicate(name,current))throw Error('Deze naam bestaat al');await transaction('readwrite',store=>store.put({id:id(),kind:'folder',name,parent:current,updated:Date.now()}));$('libraryName').value='';await refresh();status('Map gemaakt.');});
-$('librarySave').onclick=()=>run(async()=>{let name=$('libraryName').value.trim();if(!name)throw Error('Vul eerst een projectnaam in');if(!name.toLowerCase().endsWith('.json'))name+='.json';const blob=new Blob([JSON.stringify(window.ppaProjects.capture(),null,2)],{type:'application/json'});if(await putFile(name,blob,true)){status('Project opgeslagen in '+folderPath(current)+'.');$('libraryName').value='';}});
+$('librarySave').onclick=()=>run(async()=>{let name=$('libraryName').value.trim();if(!name)throw Error('Vul eerst een projectnaam in');if(!name.toLowerCase().endsWith('.json'))name+='.json';const blob=new Blob([JSON.stringify(window.ppaProjects.capture(),null,2)],{type:'application/json'});if(await putFile(name,blob,true)){status('✓ Opgeslagen in de app: '+folderPath(current)+' / '+name);document.getElementById('status').textContent='✓ Project opgeslagen in Mijn bestanden';$('libraryName').value='';}});
 $('libraryImport').onclick=()=>$('libraryFiles').click();
 $('libraryFiles').onchange=()=>run(async()=>{const files=[...$('libraryFiles').files];let count=0;try{for(const file of files){let project=false;if(file.name.toLowerCase().endsWith('.json')){try{const d=JSON.parse(await file.text());project=!!((Array.isArray(d.boards)&&d.boards.length&&d.boards.every(b=>Array.isArray(b.frames)&&b.frames.length&&Array.isArray(b.frames[0].players)))||(Array.isArray(d.frames)&&d.frames.length&&Array.isArray(d.frames[0].players)));}catch{}}if(await putFile(file.name,file,project))count++;}status(count+' bestand(en) toegevoegd.');}finally{$('libraryFiles').value='';}});
 })();
