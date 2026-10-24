@@ -13,7 +13,7 @@ import (
  "time"
 )
 
-//go:embed index.html app.css app.js manifest.webmanifest sw.js icon.svg icon-192.png icon-512.png
+//go:embed index.html app.css app.js library.js manifest.webmanifest sw.js icon.svg icon-192.png icon-512.png
 var assets embed.FS
 
 func main() {

@@ -29,3 +29,14 @@ python3 -m http.server 18761 --bind 127.0.0.1
 Geen npm-installatie of build nodig. De app kan ook op een HTTPS-host worden geplaatst. Installatie op een telefoon vereist HTTPS op een bereikbaar adres; de Windows-starter deelt de app niet met andere apparaten.
 
 Bij updates: wijzig de cachenaam in `sw.js`. Sluit alle appvensters en open opnieuw om de nieuwe serviceworker te activeren. De appbestanden zitten ook in de Windows-starter ingebouwd. Na wijzigingen bouw je deze opnieuw met Go: `GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -o PPA_Tactical_Studio_Windows.exe launcher.go`.
+
+## Mijn bestanden: opslaan in de app
+
+Klik op **Mijn bestanden**, vul een naam in en kies **Map maken**. Open de map, vul een projectnaam in en kies **Huidig project hier opslaan**. Je project staat nu in de app en blijft na afsluiten beschikbaar. Een opgeslagen project is een momentopname: sla het na aanpassingen opnieuw onder dezelfde naam op om het te vervangen.
+
+Via **Bestanden toevoegen** kun je ook bestaande JSON-projecten, afbeeldingen, pdf’s en andere bestanden in een map bewaren. Herkende tactiekprojecten kun je rechtstreeks openen; andere bestanden kun je downloaden. Bestanden en mappen kun je hernoemen en verplaatsen. Alleen lege mappen kunnen worden verwijderd.
+
+De bibliotheek is lokaal per browserprofiel en apparaat, zonder synchronisatie. Gebruik steeds dezelfde browser en hetzelfde adres. Wis je de browsergegevens, dan kan ook de bibliotheek verdwijnen. Bewaar belangrijke bestanden daarom ook als losse back-up.
+
+### Bijwerken
+Sluit alle PPA-app- en browservensters en de oude starter. Download de nieuwste zip, pak deze uit en start de nieuwe Windows-starter. Gebruik dezelfde browser en hetzelfde localhost-adres om je lokale projecten te behouden. Als nog de vorige versie verschijnt, sluit alle appvensters en open de app opnieuw zodat de bijgewerkte offlinecache kan activeren.
