@@ -4,10 +4,12 @@ Je oorspronkelijke v2.2-tactiekbord met installatie als app, offline laden en au
 
 ## Windows
 
-1. Pak de volledige zip uit in een vaste map.
-2. Installeer Python 3 via https://www.python.org/downloads/ als dit nog ontbreekt.
-3. Dubbelklik `START_WINDOWS.bat`. Houd het servervenster open tijdens gebruik. Vernieuw de browser als deze eerder opent dan de server.
-4. Open in Chrome of Edge het browsermenu en kies **App installeren** (of de installatieknop in de app wanneer beschikbaar).
+1. Download de repository via **Code → Download ZIP** en pak de zip volledig uit.
+2. Dubbelklik `PPA_Tactical_Studio_Windows.exe` (of `START_WINDOWS.bat`).
+3. Je browser opent vanzelf. Houd het startervenster open tijdens gebruik.
+4. In Chrome of Edge kun je via het browsermenu **App installeren** kiezen.
+
+Python en andere installaties zijn niet nodig. De meegeleverde starter is bedoeld voor normale Windows-laptops met een Intel- of AMD-processor (x64). Het programma is niet digitaal ondertekend; Windows kan daarom een melding tonen. Op beheerde laptops kan beleid het uitvoeren blokkeren. Als programma’s niet mogen starten, kun je `index.html` rechtstreeks openen; de basisfuncties werken dan zonder server, maar app-installatie en sommige browserfuncties zijn beperkt.
 
 De app werkt na het eerste laden ook offline via de browsercache. De starter is nodig voor de eerste installatie en updates. Bewaar de bestanden op dezelfde plek en gebruik steeds `http://localhost:18761`; een ander adres gebruikt andere lokale opslag.
 
@@ -26,4 +28,4 @@ python3 -m http.server 18761 --bind 127.0.0.1
 
 Geen npm-installatie of build nodig. De app kan ook op een HTTPS-host worden geplaatst. Installatie op een telefoon vereist HTTPS op een bereikbaar adres; de Windows-starter deelt de app niet met andere apparaten.
 
-Bij updates: wijzig de cachenaam in `sw.js`. Sluit alle appvensters en open opnieuw om de nieuwe serviceworker te activeren. De meegeleverde oorspronkelijke Windows-programma’s worden niet gebruikt.
+Bij updates: wijzig de cachenaam in `sw.js`. Sluit alle appvensters en open opnieuw om de nieuwe serviceworker te activeren. De appbestanden zitten ook in de Windows-starter ingebouwd. Na wijzigingen bouw je deze opnieuw met Go: `GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -o PPA_Tactical_Studio_Windows.exe launcher.go`.
