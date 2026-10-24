@@ -40,3 +40,11 @@ De bibliotheek is lokaal per browserprofiel en apparaat, zonder synchronisatie. 
 
 ### Bijwerken
 Sluit alle PPA-app- en browservensters en de oude starter. Download de nieuwste zip, pak deze uit en start de nieuwe Windows-starter. Gebruik dezelfde browser en hetzelfde localhost-adres om je lokale projecten te behouden. Als nog de vorige versie verschijnt, sluit alle appvensters en open de app opnieuw zodat de bijgewerkte offlinecache kan activeren.
+
+## Snel bewerken en presenteren
+
+Dubbelklik met Selecteren op een doel om de breedte en richting te wijzigen. Kies Klein, Middel of Groot, of gebruik de schuifregelaar. Dubbelklik op een magneet, tekst of tekening voor vier basiskleuren (rood, wit, blauw en geel) en de overige instellingen; bevestig met Opslaan of Toepassen. De kleurkiezer blijft beschikbaar voor andere kleuren.
+
+De selectieknoppen noemen het eigen team en de tegenstander, met rondjes in de ingestelde teamkleuren. Een teamkleur wijzigen laat de rondjes meteen meeveranderen. Een individuele magneetkleur kan via dubbelklik worden gekozen; opnieuw de teamkleur instellen maakt alle magneten van dat team weer gelijk.
+
+Presenteren toont de naam van het huidige bord boven het veld, buiten het speelvlak. Het volledige bord schaalt mee met de beschikbare ruimte.

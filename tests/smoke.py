@@ -9,7 +9,7 @@ with sync_playwright() as p:
  page.goto('http://localhost:18761');page.wait_for_function('document.querySelector("#pitch").width > 0')
  page.evaluate('navigator.serviceWorker.ready');page.reload();page.wait_for_timeout(500)
  assert page.locator('#boardTabs button').count()==1
- page.locator('#newProject').click();assert page.locator('#boardTabs button').count()==2
+ page.locator('#addBoard').click();assert page.locator('#boardTabs button').count()==2
  name=page.locator('#boardName');name.fill('Mijn training');name.press('Tab');page.wait_for_timeout(750)
  assert page.evaluate('JSON.parse(localStorage.getItem("ppa-tactical-personal-v1")).boards.length')==2
  page.reload();page.wait_for_timeout(750)
