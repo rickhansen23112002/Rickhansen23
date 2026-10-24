@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PPA Tactical Studio · v2.2</title>
+<style>
+:root{font-family:Inter,'Segoe UI',Arial,sans-serif;color:#eaf0f7;background:#090f18;font-size:14px;--panel:#111c2b;--line:#28364b;--soft:#172437;--muted:#99abc1;--yellow:#f3bd56}
+*{box-sizing:border-box}body{margin:0;min-width:990px}button,select,input{font:inherit}button{background:#202d3e;color:#dce7f4;border:1px solid #3b4a60;border-radius:9px;padding:9px 11px;cursor:pointer;white-space:nowrap}button:hover{border-color:#edbb62;color:white}button.active{background:#e8ae43;color:#17202c;border-color:#e8ae43;font-weight:700}button:disabled{opacity:.42;cursor:not-allowed}button.primary{background:#edba58;border:1px solid #edba58;color:#172235;font-weight:800}button.ghost{background:transparent}button.danger{color:#ffb2b8}input,select{background:#0e1725;color:#e9f2fa;border:1px solid #3a4b64;border-radius:7px;padding:7px;min-width:0}input[type=color]{padding:1px;width:42px;height:34px}input[type=checkbox]{accent-color:#edba58}input[type=range]{accent-color:#e8b65c;padding:0}
+header{height:79px;border-bottom:1px solid #2b384a;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:#0e1623}.brand{display:flex;align-items:center;gap:15px}.brandmark{border-radius:12px;background:#eebb59;color:#101b29;display:grid;place-items:center;width:53px;height:53px;font-size:18px;font-weight:950;letter-spacing:-1px}.brand h1{font-size:19px;margin:0;font-weight:850;letter-spacing:.1px}.brand p{font-size:12px;color:#9aadbf;margin:5px 0 0}header .actions{display:flex;align-items:center;gap:8px}.tag{font-size:10px;border-radius:20px;border:1px solid #4e5c6b;color:#abbacd;padding:4px 8px}
+.app{display:grid;grid-template-columns:minmax(650px,1fr) 326px;gap:15px;padding:15px 18px 26px;max-width:1880px;margin:auto}.left{min-width:0;display:flex;flex-direction:column;gap:14px}.panel{background:var(--panel);border:1px solid #28384b;border-radius:13px;overflow:hidden}.panel-head{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid #27384b;gap:8px}.panel-head h2{font-size:14px;margin:0;font-weight:800}.panel-head span{font-size:11px;color:var(--muted)}.split{display:flex;gap:7px;align-items:center}.tools{display:flex;align-items:center;gap:7px;padding:10px 12px;flex-wrap:wrap;border-bottom:1px solid #29384a}.tools button{padding:8px 11px}.tools .pipe{height:28px;border-left:1px solid #3b4c62;margin:0 3px}.canvaswrap{display:flex;justify-content:center;align-items:center;background:radial-gradient(ellipse at center,#1c2c35 0,#111c25 65%,#0b1520 100%);padding:14px;min-height:380px;position:relative}.canvaswrap canvas{width:100%;max-width:1120px;display:block;cursor:crosshair;touch-action:none;border-radius:6px;box-shadow:0 15px 45px #0005}#pitch{aspect-ratio:1100/640}.hint{padding:10px 15px;color:#aabbd0;font-size:12px;border-top:1px solid #27384b;line-height:1.4}.side{display:flex;flex-direction:column;gap:13px}.section{padding:13px}.section h3{font-size:13px;margin:0 0 11px}.section p{font-size:12px;color:#a4b6c9;line-height:1.5;margin:8px 0}.fields{display:grid;grid-template-columns:1fr 1fr;gap:9px}.fields label{display:flex;flex-direction:column;gap:5px;font-size:11px;color:#b2c2d6}.fields label.full{grid-column:1/-1}.fields select,.fields input:not([type=checkbox]):not([type=color]){width:100%}.toggle{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px;color:#d5e0ea;cursor:pointer}.toggle.sub{padding-left:18px}.tight{display:flex;gap:5px;flex-wrap:wrap}.tight button{font-size:12px;padding:7px 9px}.rule{height:1px;background:#2b3b4c;margin:11px 0}.timeline-head{display:flex;justify-content:space-between;align-items:center;padding:12px 15px 6px}.timeline-head h2{font-size:14px;margin:0}.timeline{padding:5px 15px 15px}.timeline-top{display:flex;align-items:center;gap:9px}.timeline-top input{width:100%}.time{min-width:90px;text-align:right;color:#e4ecf7;font-variant-numeric:tabular-nums}.frames{display:flex;gap:6px;align-items:center;margin-top:12px;min-height:47px;overflow-x:auto;padding-bottom:5px}.frames button{font-size:11px;border-radius:7px;min-width:92px;text-align:left;padding:7px 9px}.frames .on{outline:2px solid #f0bb51}.frames small{display:block;color:#b5c5d9;margin-top:2px}.timeline-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:7px 0 10px}.timeline-actions button{font-size:12px}.legend{display:flex;align-items:center;gap:12px;padding:8px 15px 12px;color:#b8c9d6;font-size:11px;flex-wrap:wrap}.swatch{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px}.pill{display:inline-block;background:#253951;border-radius:6px;padding:4px 6px;color:#e4c988}.footer{color:#6f86a0;text-align:center;font-size:11px;padding:0 0 12px}.status{padding:10px 12px;color:#d5e5f1;background:#24364a;border-left:3px solid #eeba5c;font-size:12px;line-height:1.45;border-radius:5px}.mini{color:#9eb2c7;font-size:11px}.hide{display:none!important}.quick{display:grid;grid-template-columns:1fr 1fr;gap:7px}.quick button{font-size:12px;padding:9px 6px;white-space:normal;line-height:1.35;min-height:38px}.loading{opacity:.6}.num{font-variant-numeric:tabular-nums}
+
+.boardbar{display:flex;align-items:center;gap:7px;border-bottom:1px solid #28394b;padding:9px 12px;background:#121d2a}.boardtabs{display:flex;align-items:center;gap:6px;overflow-x:auto;flex:1;min-width:0;padding:2px}.boardtabs button{max-width:225px;overflow:hidden;text-overflow:ellipsis;flex-shrink:0;font-size:12px;padding:9px 12px;background:#18283a}.boardtabs button.active{background:#edba58;color:#142134;border-color:#edba58}.boardbar>button{padding:8px 10px}.boardname{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid #253648;background:#111c2b}.boardname label{font-size:11px;white-space:nowrap;color:#afc3d5}.boardname input{width:270px;max-width:45%;padding:6px 9px}.boardname span{font-size:11px;color:#718ca8}.player-editor{margin:11px 0 8px;padding:11px;background:#18273b;border:1px solid #33485e;border-radius:9px}.player-editor>label{font-size:12px;font-weight:700;color:#e7edf4}.name-input-row{display:flex;gap:5px;margin:8px 0}.name-input-row input{flex:1;min-width:0}.name-input-row button{font-size:12px;padding:7px 9px}.savepic{margin-left:auto;background:#2b453f;border-color:#49776c}#toolHint{min-height:48px}
+
+.teamcolors{display:flex;flex-direction:column;gap:12px}.colorrow{display:grid;grid-template-columns:1fr 43px;gap:8px;align-items:center}.colorrow>label{font-size:12px;font-weight:700}.colorrow>input{justify-self:end}.coloroptions{grid-column:1/-1;display:flex;gap:8px}.coloroptions button{width:31px;height:31px;border-radius:50%;padding:0;background:var(--swatch);border:2px solid #536477;box-shadow:0 2px 4px #0005}.coloroptions button.chosen{outline:2px solid #edba58;outline-offset:2px}.coloroptions button:hover{transform:scale(1.10)}.ballrow{display:flex;align-items:center;justify-content:space-between;gap:8px}.ballrow .toggle{margin:0}.ballrow button{font-size:12px;padding:7px 9px}.multiselected{color:#f4c261}.tools button[data-tool="dashedArrow"]{border-style:dashed}.panel .section p b{color:#e2eef8}
+
+.text-popup{position:absolute;z-index:30;width:min(326px,calc(100% - 24px));background:#0f1e2f;border:1px solid #ecba5f;border-radius:12px;box-shadow:0 14px 36px #000b;padding:14px;display:flex;flex-direction:column;gap:10px;color:#eaf0f7}
+.text-popup>strong{font-size:13px}.text-popup>input{width:100%;border-color:#56748d;font-size:14px}.text-popup .checkrow{display:flex;align-items:center;gap:8px;font-size:12px;color:#b8d3ec}.text-popup .checkrow input{width:auto}.text-popup .actions{display:flex;gap:7px;justify-content:flex-end}.text-popup .actions button{font-size:12px}.player-tags{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:9px}.player-tags button{font-size:11px;padding:7px 10px;white-space:normal}.player-tags .active-glow{border-color:#f4c761;color:#f9d77e}
+
+/* V1.6: linked moving player lines, alongside the v1.5 formations and menus */
+.sidefold{flex-shrink:0}.sidefold>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;padding:15px 14px;font-weight:800;font-size:13px;cursor:pointer;user-select:none;gap:8px;background:#142134;color:#eaf0f7}
+.sidefold>summary::-webkit-details-marker{display:none}.sidefold>summary::after{content:'⌄';color:#f5bd57;font-size:20px;line-height:.7;transition:transform .15s ease}.sidefold[open]>summary::after{transform:rotate(180deg)}.sidefold[open]>summary{border-bottom:1px solid #28384b;background:#182a3e}.sidefold>summary:hover{background:#20354c}
+.formation-card{margin:10px 0 0;padding:11px;border:1px solid #344962;border-radius:10px;background:#17263a}.formation-card h4{font-size:12px;margin:0 0 8px;color:#f3cc79}.formation-row{display:grid;grid-template-columns:1fr;gap:6px;margin-bottom:10px}.formation-row label{font-size:11px;color:#b8ccdf;font-weight:700}.formation-row select{width:100%}.formation-row button{font-size:12px;white-space:normal}.formation-note{font-size:11px;color:#a9bed5;line-height:1.4;margin:5px 0 0}
+.quick-linecolors{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:9px 0 7px}.quick-linecolors span{font-size:11px;font-weight:700;color:#b9cde0;width:100%}.quick-linecolors button{padding:5px 9px;display:flex;align-items:center;gap:6px;font-size:11px}.quick-linecolors button i{display:inline-block;width:14px;height:14px;border-radius:50%;border:1px solid #708297;background:var(--swatch)}
+.magnet-popup{position:absolute;z-index:35;width:min(295px,calc(100% - 25px));padding:13px;background:#0f1e2f;border:1px solid #efbf62;border-radius:12px;box-shadow:0 14px 32px #000a;display:flex;flex-direction:column;gap:10px}.magnet-popup strong{font-size:13px}.magnet-popup label{font-size:11px;color:#a9c1d9}.magnet-popup input{font-size:17px;text-align:center;font-weight:800;letter-spacing:1px}.magnet-popup .actions{display:flex;justify-content:flex-end;gap:8px}
+
+.linked-lines-help{border:1px solid #47688a;background:#162b42;border-radius:9px;padding:11px 12px;margin:0 0 13px}
+.linked-lines-help>b{font-size:12px;color:#ffd27d}
+.linked-lines-help p{margin:6px 0 0!important;line-height:1.55!important;font-size:11px!important;color:#bdd0e5!important}
+button[data-tool="linkedLine"]{border-color:#567ca0}
+button[data-tool="linkedLine"].active{border-color:#edba58}
+
+/* v1.8 compact workspace */
+.side{gap:9px}.sidefold>summary{padding:12px 13px}.sidefold .section{padding:11px 13px}.sidefold .rule{margin:8px 0}.sidefold .formation-row{margin:0;gap:6px}.sidefold .formation-row select{padding:8px}.sidefold .formation-row button{margin-top:2px}.sidefold .player-editor{padding:9px;margin:6px 0}.sidefold .quick-linecolors{margin:7px 0}.panel-head .split select{min-width:150px}.boardname .boardstatus{color:#9bc6ac;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:120px}.boardname input{width:260px}#folderName{max-width:135px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}header .actions{gap:6px}header .actions button{padding:8px 9px}.compactsection{display:grid;gap:7px}#fitHalf{display:none}#fitHalf.visible{display:block}.sidefold .formation-row label{font-size:11px}
+
+/* v1.9 workflow & polish */
+.select-lock{display:flex;gap:7px;align-items:center;font-size:12px;color:#d7e5f5;background:#16283a;border:1px solid #3a5670;border-radius:8px;padding:3px 7px}
+.select-lock select{padding:5px;background:#0d1c2b;max-width:139px}
+.tools button.sticky{box-shadow:0 0 0 2px #f6d283aa inset}
+.third-action{grid-column:1/-1;background:#3b321d;border-color:#79613c;color:#ffd880}
+#clearBoard{border-color:#89515a}
+#clearBoard:hover{background:#5c2835;color:#fff}
+.quick-linecolors button[data-linecolor=third]{color:#f7cc86}
+@media(max-width:1180px){.app{grid-template-columns:minmax(590px,1fr) 300px;padding:10px}.tools{gap:5px}.tools button{padding:7px 8px}}
+
+.shape-popup{width:310px;z-index:42;max-height:calc(100% - 20px);overflow:auto}
+.shape-popup>label{display:flex;flex-direction:column;gap:5px;font-weight:700;color:#d4e3ef}
+.shape-popup input[type=color]{width:100%;height:37px;cursor:pointer}
+.shape-popup input[type=range]{width:100%}
+.shape-popup select,.shape-popup input[type=text]{width:100%}
+.shape-palettes{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.shape-palettes button{font-size:11px;padding:7px 5px}
+.context-menu{position:absolute;z-index:50;background:#111c2b;border:1px solid #e4b758;border-radius:10px;box-shadow:0 16px 40px #000a;min-width:260px;padding:6px;display:grid;gap:3px}
+.context-menu button{background:transparent;text-align:left;border:0;border-radius:6px;white-space:normal;padding:11px}
+.context-menu button:hover{background:#273b51}
+#viewMode{max-width:220px}
+
+/* v2.2: simpele logo-opdruk + focuspresentatie */
+#presentationOverlay{position:fixed;inset:0;z-index:99999;display:flex;justify-content:center;align-items:center;background:#071019;overflow:hidden}
+#presentationCanvas{display:block;width:min(99vw, calc(99vh * 1100 / 640));height:auto;max-height:99vh;object-fit:contain;touch-action:none}
+#exitPresentation{position:absolute;top:12px;right:12px;z-index:2;opacity:0.05;transition:opacity .2s;background:#1e3548;color:white;border:1px solid #53697b;border-radius:7px;padding:7px 10px;cursor:pointer}
+#presentationOverlay:hover #exitPresentation,#exitPresentation:focus-visible{opacity:1}
+.logo-controls{padding:9px;border:1px solid #344962;border-radius:9px;display:grid;gap:8px;background:#152437;margin-top:10px}
+.logo-controls label{font-size:12px;color:#cddce9;font-weight:700}
+.logo-controls .logo-controls-row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.logo-controls input[type=file]{font-size:11px;max-width:100%}
+.logo-controls input[type=range]{width:100%}
+.logo-controls .mini{font-weight:400}
+</style>
+<meta name="theme-color" content="#111c2b">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="app.css">
+<script src="app.js" defer></script>
+</head>
+<body><div id="presentationOverlay" class="hide" aria-label="Presentatiemodus: alleen het tactiekbord"><button id="exitPresentation" type="button" title="Sluit presentatie (Esc)">✕</button><canvas id="presentationCanvas" width="1100" height="640"></canvas></div>
+<header><div class="brand"><div class="brandmark">PPA</div><div><h1>Tactical Studio <span class="tag">v2.2</span></h1><p>Tactiekborden · animatie · presentatie · offline</p></div></div><div class="actions"><span id="autosaveStatus" class="tag" role="status">Lokaal bewaren actief</span><button id="installApp" class="primary" hidden>App installeren</button><button id="newProject" class="ghost">＋ Bord</button><button id="clearBoard" class="danger" title="Maak alleen het huidige bord leeg; overige borden blijven bewaard">⌫ Wis bord</button><button id="undo" title="Ctrl+Z">↶ Ongedaan</button><button id="save">↓ Project opslaan</button><button id="load">↑ Open project</button><input id="openFile" type="file" accept=".json" hidden><button id="png" class="primary">📷 PNG</button><button id="present" class="primary" title="Presentatiemodus: alleen het veld, spatie voor afspelen/pauzeren en Esc om terug te gaan">⛶ Presenteren</button><button id="chooseFolder" title="Kies een lokale map voor afbeeldingen en video’s">📁 Exportmap</button><span id="folderName" class="tag" title="Exportlocatie">Downloads</span></div></header>
+<div class="app">
+ <div class="left">
+  <section class="panel">
+   <div class="panel-head"><h2>Tactiekbord</h2><div class="split"><select id="viewMode" title="Kies het hele of een half veld" aria-label="Veldgrootte"><option value="full">Hele veld</option><option value="own">Eigen helft</option><option value="attacking">Aanvallende helft</option><option value="twoOwn">2/3 veld · vanaf eigen helft</option><option value="twoAttacking">2/3 veld · vanaf helft tegenstander</option></select><button id="fitHalf" title="Plaats spelers en bal van alle animatiestappen binnen het zichtbare halve veld">↔ Magneten inpassen</button><button data-orientation="h" class="active" id="landscape">▭ Horizontaal</button><button data-orientation="v" id="portrait">▯ Verticaal</button></div></div>
+   <div class="boardbar"><div class="boardtabs" id="boardTabs" aria-label="Borden in dit project"></div><button id="addBoard" class="primary" title="Nieuw bord op basis van huidige opstelling">＋ Bord</button><button id="addBlankBoard" title="Voeg een leeg startbord toe">＋ Leeg</button><button id="deleteBoard" class="danger" title="Verwijder het huidige bord">×</button></div>
+   <div class="boardname"><label for="boardName">Bord</label><input id="boardName" type="text" value="Bord 1 · Keeper aan de bal" maxlength="90"><span id="status" role="status" class="boardstatus" aria-live="polite">Klaar</span></div>
+   <div class="tools" id="tools"><button data-tool="select" class="active">↖ Selecteren</button><button data-tool="arrow">➜ Pijl</button><button data-tool="dashedArrow">⇢ Gestippelde pijl</button><button data-tool="rect">▣ Zone</button><button data-tool="polygon">⬡ Vrije zone</button><button data-tool="linked">◇ Zone koppelen</button><button data-tool="linkedLine" title="Verbind 2 of meer magneten met een meebewegende lijn zonder vlak">⎯ Linie koppelen</button><button data-tool="text">T Tekst</button><button data-tool="highlight">✦ Highlight</button><button data-tool="ball">⚽ Bal plaatsen</button><span class="pipe"></span><button data-tool="cone">▲ Pion</button><button data-tool="dummy">│ Slalomstok</button><button data-tool="trainingGoal">▱ Doel</button><button data-tool="fieldLine">╱ Veldlijn</button><button data-tool="erase">⌫ Wissen</button><span class="pipe"></span><button id="selectRed" title="Selecteer alle eigen spelers">🔴 Selecteer 11</button><button id="selectWhite" title="Selecteer alle tegenstanders">⚪ Selecteer 11</button><button id="selectThird" title="Selecteer magneten van de derde partij">🟠 Derde team</button><button id="finish">✓ Verbinding afronden</button><button id="quickPng" class="savepic">📷 PNG</button><button id="copyPng" title="Zet de volledige afbeelding op het klembord, bijvoorbeeld voor PowerPoint">⧉ Kopieer bord</button><button id="cancel">× Annuleer</button><label class="select-lock" for="selectionFilter" title="Beperk selecteren en verplaatsen tot dit team">🔒 Selectie <select id="selectionFilter"><option value="all">Alles</option><option value="red">Eigen team</option><option value="white">Tegenstander</option><option value="third">Derde team</option><option value="objects">Alleen objecten (geen spelers)</option></select></label><span id="stickyBadge" class="mini hide">📌 Herhaalmodus</span></div>
+   <div class="canvaswrap"><canvas id="pitch" width="1100" height="640" aria-label="Interactief tactiekbord"></canvas>
+   <div id="textPopup" class="text-popup hide" role="dialog" aria-label="Tekst op tactiekbord toevoegen of bewerken">
+     <strong id="textPopupTitle">Tekst toevoegen</strong>
+     <input id="floatingText" type="text" maxlength="95" placeholder="Bijv. Rechtsbenig, veel diepte, pocket" aria-label="Tekstinhoud">
+     <label id="textAttachRow" class="checkrow"><input id="textAttach" type="checkbox"> Koppel tekst aan deze speler (beweegt mee)</label>
+     <div class="actions"><button id="textPopupCancel">Annuleren</button><button id="textPopupSave" class="primary">✓ Tekst plaatsen</button></div>
+    </div>
+    <div id="magnetPopup" class="magnet-popup hide" role="dialog" aria-label="Magneetnummer of initialen bewerken">
+      <strong>Nummer of initialen in magneet</strong>
+      <label for="magnetCode">Bijv. 7, 27, AB of GK</label>
+      <input id="magnetCode" maxlength="3" autocomplete="off" placeholder="27">
+      <div class="actions"><button id="magnetCancel">Annuleren</button><button class="primary" id="magnetSave">✓ Opslaan</button></div>
+    </div>
+    <div id="shapePopup" class="magnet-popup shape-popup hide" role="dialog" aria-label="Geselecteerde tekening bewerken">
+      <strong id="shapePopupTitle">Object bewerken</strong>
+      <label>Kleur <input id="shapeColor" type="color" value="#f3bd56" aria-label="Kleur van geselecteerd object"></label>
+      <div class="shape-palettes"><button type="button" data-popup-color="home">Eigen team</button><button type="button" data-popup-color="away">Tegenstander</button><button type="button" data-popup-color="third">Derde</button><button type="button" data-popup-color="gold">Geel</button></div>
+      <label>Dikte <span id="shapeWidthValue">4 px</span><input id="shapeWidth" type="range" min="1" max="14" value="4" step="1"></label>
+      <label id="shapeDashRow">Lijnstijl <select id="shapeDash"><option value="solid">Doorgetrokken</option><option value="dashed">Gestippeld / onderbroken</option></select></label>
+      <label id="shapeLabelRow">Meebewegende tekst <input id="shapeLabel" maxlength="95" placeholder="Bijv. middenveld blok, druklijn"></label>
+      <div class="actions"><button id="shapeCancel">Sluiten</button><button id="shapeSave" class="primary">✓ Toepassen</button></div>
+    </div>
+    <div id="boardContextMenu" class="context-menu hide" role="menu">
+      <button id="contextCopyImage" role="menuitem">📋 Kopieer bord als afbeelding</button>
+      <button id="contextCopyObjects" role="menuitem">⧉ Kopieer geselecteerde elementen</button>
+      <button id="contextPasteObjects" role="menuitem">↳ Plak elementen</button>
+    </div></div>
+    <div class="hint hide" id="toolHint"></div>
+   <div class="legend"><span><i id="legendHome" class="swatch" style="background:#f0585d"></i> Eigen team</span><span><i id="legendAway" class="swatch" style="background:#f5f8ff"></i> Tegenstander</span><span><i id="legendThird" class="swatch" style="background:#f0ae39"></i> Derde team</span><span>⚽ Bal</span><span><i class="swatch" style="background:#f3bd56"></i> Gekoppelde zones / linies</span><span id="directionLegend">Spelrichting eigen team →</span></div>
+  </section>
+  <section class="panel">
+    <div class="timeline-head"><h2>Animatiestudio</h2><span id="animationState" class="tag">Gepauzeerd</span></div>
+    <div class="timeline"><div class="timeline-actions"><div class="split"><button id="play" class="primary">▶ Afspelen</button><button id="previous">◀ Stap terug</button><button id="next">Stap vooruit ▶</button></div><div class="split"><button id="addFrame">＋ Nieuwe animatiestap</button><button id="removeFrame" class="danger">Verwijder stap</button></div></div>
+      <div class="timeline-top"><input type="range" id="scrub" min="0" max="3" value="0" step="0.01"><span class="time" id="timeLabel">0,0 / 3,0 s</span></div>
+      <div class="frames" id="frames"></div>
+      <div class="split"><label class="mini">Stapduur <select id="stepDuration"><option value="1">1 seconde</option><option value="2">2 seconden</option><option value="3" selected>3 seconden</option><option value="5">5 seconden</option></select></label><button id="record">● Exporteer animatie (WebM)</button></div>
+    </div>
+  </section>
+ </div>
+ <aside class="side">
+   <details class="panel sidefold" open><summary>01 · Formaties</summary><div class="section compactsection">
+   <div class="formation-row"><label for="homeFormation">Eigen team · formatie</label><select id="homeFormation"><option value="433">1-4-3-3</option><option value="442">1-4-4-2</option><option value="523">1-5-2-3</option><option value="4231">1-4-2-3-1</option><option value="343">1-3-4-3</option><option value="532">1-5-3-2</option><option value="4141">1-4-1-4-1</option></select><label for="homeDepth">Positie op veld</label><select id="homeDepth"><option value="low">Laag</option><option value="middle" selected>Midden</option><option value="high">Hoog</option></select><button id="applyHomeFormation" class="primary">↺ Eigen team plaatsen</button></div>
+   <div class="rule"></div>
+   <div class="formation-row"><label for="awayFormation">Tegenstander · formatie</label><select id="awayFormation"><option value="433">1-4-3-3</option><option value="442">1-4-4-2</option><option value="523">1-5-2-3</option><option value="4231">1-4-2-3-1</option><option value="343">1-3-4-3</option><option value="532">1-5-3-2</option><option value="4141">1-4-1-4-1</option></select><label for="awayDepth">Positie op veld</label><select id="awayDepth"><option value="low">Laag</option><option value="middle" selected>Midden</option><option value="high">Hoog</option></select><button id="applyAwayFormation">↺ Tegenstander plaatsen</button></div>
+   <select id="preset" hidden><option value="keeper">Keeper aan de bal</option><option value="low">Laag</option><option value="middle">Midden</option><option value="attack">Aanvallen</option><option value="lowblock">Laag blok</option><option value="midblock">Middenblok</option><option value="press">Hoge druk</option><option value="transition">Omschakelen</option></select><button id="applyPreset" hidden>Fase laden</button>
+   </div></details>
+   <details class="panel sidefold"><summary>02 · Teams & bal</summary><div class="section">
+     <div class="teamcolors">
+      <div class="colorrow"><label for="homeColor">Eigen team · alle magneten</label><input id="homeColor" type="color" value="#f0585d" aria-label="Kleur eigen team"><div class="coloroptions" data-team="red"><button data-color="#f0585d" title="Rood" style="--swatch:#f0585d"></button><button data-color="#3679e0" title="Blauw" style="--swatch:#3679e0"></button><button data-color="#f7cc4e" title="Geel" style="--swatch:#f7cc4e"></button><button data-color="#171b27" title="Zwart" style="--swatch:#171b27"></button><button data-color="#f7f9fc" title="Wit" style="--swatch:#f7f9fc"></button></div></div>
+      <div class="colorrow"><label for="awayColor">Tegenstander · alle magneten</label><input id="awayColor" type="color" value="#f5f8ff" aria-label="Kleur tegenstander"><div class="coloroptions" data-team="white"><button data-color="#f5f8ff" title="Wit" style="--swatch:#f5f8ff"></button><button data-color="#171b27" title="Zwart" style="--swatch:#171b27"></button><button data-color="#3679e0" title="Blauw" style="--swatch:#3679e0"></button><button data-color="#f0585d" title="Rood" style="--swatch:#f0585d"></button><button data-color="#f7cc4e" title="Geel" style="--swatch:#f7cc4e"></button></div></div>
+     </div>
+     <div class="colorrow" style="margin-top:10px"><label for="thirdColor">Derde team · eigen kleur</label><input id="thirdColor" type="color" value="#f0ae39" aria-label="Kleur derde team"></div><div class="rule"></div><div class="quick"><button id="addRed">＋ Eigen magneet</button><button id="addWhite">＋ Tegenstander</button><button id="addThird" class="third-action">＋ Derde partij</button></div><div class="rule"></div>
+     <div class="ballrow"><label class="toggle"><input id="showBall" type="checkbox" checked> ⚽ Toon bal op het bord</label><button id="putBall" class="primary">⚽ Plaats bal</button></div>
+     <div class="logo-controls"><label for="fieldLogoUpload">Logo op het veld (PNG, JPG of WebP)</label><input id="fieldLogoUpload" type="file" accept="image/png,image/jpeg,image/webp"><div class="logo-controls-row"><label class="toggle"><input id="fieldLogoEnabled" type="checkbox" checked> Logo tonen</label><button id="removeFieldLogo" type="button">Logo verwijderen</button></div><label for="fieldLogoOpacity">Zichtbaarheid · <span id="fieldLogoOpacityLabel">16%</span></label><input id="fieldLogoOpacity" type="range" min="3" max="45" value="16" step="1"><span class="mini">Het logo behoudt automatisch zijn oorspronkelijke verhoudingen.</span></div>
+     
+   </div></details>
+   <details class="panel sidefold"><summary>03 · Veldzones</summary><div class="section"><label class="toggle"><input id="lanes" type="checkbox"> Verticale stroken (flank / halfspace / as)</label><label class="toggle sub"><input id="flanks" type="checkbox" checked> Flanken</label><label class="toggle sub"><input id="halfspaces" type="checkbox" checked> Halfspaces</label><label class="toggle sub"><input id="axis" type="checkbox" checked> As</label><label class="toggle"><input id="thirds" type="checkbox"> Horizontale fases 1–3</label><label class="toggle"><input id="lines" type="checkbox"> Extra horizontale lijnen</label><label class="toggle"><input id="zoneLabels" type="checkbox" checked> Namen op veld tonen</label><label class="toggle"><input id="zoneShade" type="checkbox" checked> Transparante zonekleuren</label><label class="toggle"><input id="showNames" type="checkbox" checked> Namen onder de spelersmagneten</label><label class="toggle"><input id="showNumbers" type="checkbox" checked> Nummers / initialen ín alle magneten</label></div></details>
+   <details class="panel sidefold"><summary>04 · Objecten & opmaak</summary><div class="section"><div class="fields"><label>Kleur<input id="objectColor" type="color" value="#f3bd56"></label><label>Breedte <select id="lineWidth"><option value="2">Dun</option><option value="4" selected>Normaal</option><option value="7">Dik</option></select></label><label class="full">Lijnstijl / pijlstijl <select id="arrowStyle"><option value="solid">Doorgetrokken — looplijn</option><option value="dashed">Gestippeld — passlijn / variant</option></select></label><label class="full">Tekst / titel<input id="objectText" type="text" placeholder="Bijv. ruimte achter de 6"></label></div>
+<div class="quick-linecolors"><span>Kleur: klik op een zone en kies een kleur (direct toegepast)</span><button type="button" data-linecolor="home"><i style="--swatch:#f0585d"></i> Eigen team</button><button type="button" data-linecolor="away"><i style="--swatch:#f5f8ff"></i> Tegenstander</button><button type="button" data-linecolor="gold"><i style="--swatch:#f3bd56"></i> Geel</button><button type="button" data-linecolor="third"><i style="--swatch:#f0ae39"></i> Derde</button></div>
+<div class="player-editor"><label for="playerName">Naam van geselecteerde speler</label><div class="name-input-row"><input id="playerName" type="text" maxlength="45" placeholder="Bijv. Jansen of Van Dijk"><button id="applyPlayerName" class="primary">Opslaan</button></div><div class="mini">Klik op een magneet voor de naam onder het rondje. <b>Dubbelklik</b> op de magneet om het nummer of de letters ín het rondje te wijzigen.</div>
+      <div class="player-tags"><button id="addPlayerLabel" class="primary">＋ Tekst boven speler</button><button id="togglePlayerGlow">✦ Speler highlighten</button></div>
+      </div><p id="selectionInfo" class="hide" aria-hidden="true"></p><div class="quick"><button id="updateText">Pas geselecteerd(e) object(en) aan</button><button id="deleteObject" class="danger">Verwijder selectie</button></div><div class="rule"></div></div></details>
+   <details class="panel sidefold"><summary>05 · Trainingsmateriaal</summary><div class="section">
+     
+     <div class="quick"><button id="quickCone">▲ Plaats pion</button><button id="quickDummy">│ Plaats slalomstok</button><button id="quickGoal">▱ Plaats doel</button><button id="quickFieldLine">╱ Trek veldlijn</button></div>
+     <div class="rule"></div><div class="fields">
+      <label class="full" for="goalSize">Breedte van het doel <span id="goalSizeLabel" class="mini">Middelgroot</span><input type="range" id="goalSize" min="4" max="23" step="1" value="10"></label>
+      <label class="full" for="goalRotation">Stand van doel <select id="goalRotation"><option value="0">Opening naar links</option><option value="180">Opening naar rechts</option><option value="90">Opening naar boven</option><option value="270">Opening naar beneden</option></select></label>
+     </div>
+     
+   </div></details>
+   
+ </aside>
+</div>
+<div class="footer">PLAYER PERFORMANCE ACADEMY · Tactical Studio · Lokaal op je Windows-laptop</div>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id), canvas=$('pitch');let ctx=canvas.getContext('2d');const W=1100,H=640;
+const clone=v=>JSON.parse(JSON.stringify(v)),clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), lerp=(a,b,r)=>a+(b-a)*r;
+const home='#f0585d', away='#f5f8ff', gold='#f3bd56';
+let tool='select',stickyTool=false,selectionFilter='all',orientation='h',selected=null,pending=[],drag=null,frames=[],currentFrame=0,time=0,playing=false,playStart=0,lastRaf=0,dirty=true,history=[],lastStatus='';
+const presentationCanvas=$('presentationCanvas'),presentationCtx=presentationCanvas.getContext('2d');let presentationMode=false,presentationFullscreen=false;
+let boards=[],boardIndex=0,exporting=false,multiSelected=new Set(),textDialog=null,magnetDialog=null,shapeDialog=null,copyBuffer=null,pasteCount=0;
+let settings={lanes:false,flanks:true,halfspaces:true,axis:true,thirds:false,lines:false,zoneLabels:true,zoneShade:true,showNames:true,showNumbers:true,showBall:true,homeColor:home,awayColor:away,formationHome:'433',formationAway:'442',depthHome:'middle',depthAway:'middle',thirdColor:'#f0ae39',viewMode:'full',fieldLogo:'',fieldLogoOpacity:16,fieldLogoEnabled:true};
+let idSeq=100;
+const nextId=()=>String(++idSeq);
+const mkP=(team,n,x,y)=>({id:nextId(),team,number:n,slot:n,x,y,glow:false,name:''});
+const formationKeeperR=[[1,.055,.5],[2,.235,.12],[3,.14,.36],[4,.14,.64],[5,.235,.88],[6,.34,.41],[8,.35,.63],[10,.55,.51],[7,.54,.17],[11,.54,.84],[9,.68,.52]];
+const formationKeeperW=[[1,.955,.5],[2,.84,.14],[3,.82,.39],[4,.82,.63],[5,.84,.85],[6,.65,.36],[8,.65,.64],[10,.53,.50],[7,.61,.15],[11,.61,.86],[9,.41,.52]];
+const templates={
+ keeper:{label:'Keeper aan de bal',red:formationKeeperR,white:formationKeeperW},
+ low:{label:'Opbouw eerste fase',red:[[1,.09,.5],[2,.24,.11],[3,.18,.33],[4,.18,.66],[5,.25,.89],[6,.35,.44],[8,.42,.65],[10,.58,.48],[7,.63,.13],[11,.63,.89],[9,.74,.52]],white:[[1,.96,.5],[2,.86,.12],[3,.82,.39],[4,.82,.65],[5,.85,.88],[6,.64,.36],[8,.64,.64],[10,.53,.52],[7,.58,.14],[11,.59,.86],[9,.44,.5]]},
+ middle:{label:'Progressiezone',red:[[1,.18,.5],[2,.38,.10],[3,.37,.32],[4,.37,.68],[5,.38,.90],[6,.49,.43],[8,.54,.65],[10,.66,.5],[7,.75,.15],[11,.75,.85],[9,.82,.5]],white:[[1,.96,.5],[2,.84,.11],[3,.79,.36],[4,.79,.65],[5,.84,.9],[6,.7,.39],[8,.69,.63],[10,.64,.5],[7,.59,.12],[11,.59,.9],[9,.51,.5]]},
+ attack:{label:'Aanvallen laatste derde',red:[[1,.36,.5],[2,.52,.10],[3,.5,.33],[4,.5,.68],[5,.51,.90],[6,.61,.44],[8,.7,.67],[10,.81,.49],[7,.86,.12],[11,.85,.85],[9,.9,.52]],white:[[1,.965,.5],[2,.91,.14],[3,.88,.38],[4,.88,.64],[5,.91,.86],[6,.80,.37],[8,.80,.63],[10,.74,.5],[7,.74,.15],[11,.74,.85],[9,.63,.5]]},
+ lowblock:{label:'Verdedigen laag blok',red:[[1,.045,.5],[2,.18,.12],[3,.16,.36],[4,.16,.64],[5,.18,.88],[6,.29,.36],[8,.29,.64],[10,.38,.51],[7,.38,.13],[11,.38,.87],[9,.46,.5]],white:[[1,.965,.5],[2,.8,.11],[3,.77,.38],[4,.77,.62],[5,.80,.89],[6,.63,.39],[8,.63,.63],[10,.54,.5],[7,.57,.13],[11,.57,.87],[9,.47,.5]]},
+ midblock:{label:'Verdedigen middenblok',red:[[1,.055,.5],[2,.34,.1],[3,.31,.36],[4,.31,.64],[5,.34,.9],[6,.45,.36],[8,.45,.65],[10,.49,.51],[7,.49,.13],[11,.49,.87],[9,.60,.5]],white:[[1,.96,.5],[2,.76,.12],[3,.72,.37],[4,.72,.63],[5,.76,.88],[6,.61,.4],[8,.61,.63],[10,.55,.5],[7,.47,.14],[11,.47,.86],[9,.38,.5]]},
+ press:{label:'Hoge druk',red:[[1,.20,.5],[2,.49,.12],[3,.47,.38],[4,.47,.63],[5,.49,.89],[6,.63,.42],[8,.64,.62],[10,.78,.50],[7,.83,.13],[11,.83,.86],[9,.86,.5]],white:[[1,.955,.5],[2,.81,.10],[3,.84,.37],[4,.84,.63],[5,.81,.90],[6,.74,.43],[8,.74,.61],[10,.67,.5],[7,.66,.12],[11,.66,.88],[9,.58,.51]]},
+ transition:{label:'Omschakeling na balverlies',red:[[1,.10,.5],[2,.33,.12],[3,.32,.36],[4,.33,.63],[5,.34,.88],[6,.53,.43],[8,.56,.63],[10,.66,.50],[7,.76,.14],[11,.77,.85],[9,.83,.51]],white:[[1,.965,.5],[2,.84,.1],[3,.82,.37],[4,.82,.62],[5,.84,.89],[6,.57,.38],[8,.58,.65],[10,.49,.51],[7,.64,.12],[11,.64,.89],[9,.39,.5]]}
+};
+// 1 refers to the keeper; each following group is a horizontal line from the team's own goal to the opponent's.
+const formations={
+ '433':{label:'1-4-3-3',lines:[[2,3,4,5],[6,8,10],[7,9,11]]},
+ '442':{label:'1-4-4-2',lines:[[2,3,4,5],[7,6,8,11],[9,10]]},
+ '523':{label:'1-5-2-3',lines:[[2,3,4,5,6],[8,10],[7,9,11]]},
+ '4231':{label:'1-4-2-3-1',lines:[[2,3,4,5],[6,8],[7,10,11],[9]]},
+ '343':{label:'1-3-4-3',lines:[[3,4,5],[2,6,8,11],[7,9,10]]},
+ '532':{label:'1-5-3-2',lines:[[2,3,4,5,6],[8,10,7],[9,11]]},
+ '4141':{label:'1-4-1-4-1',lines:[[2,3,4,5],[6],[7,8,10,11],[9]]}
+};
+const canonicalSlots=[1,2,3,4,5,6,8,10,7,11,9];
+const presetBalls={keeper:{x:.07,y:.5},low:{x:.17,y:.34},middle:{x:.49,y:.43},attack:{x:.78,y:.49},lowblock:{x:.61,y:.42},midblock:{x:.60,y:.43},press:{x:.91,y:.5},transition:{x:.66,y:.5}};
+function initialFrame(){const t=templates.keeper;return {t:0,label:'Start · Keeper bal',players:[...t.red.map(a=>mkP('red',...a)),...t.white.map(a=>mkP('white',...a))],objects:[],ball:clone(presetBalls.keeper)};}
+function reset(){settings={lanes:false,flanks:true,halfspaces:true,axis:true,thirds:false,lines:false,zoneLabels:true,zoneShade:true,showNames:true,showNumbers:true,showBall:true,homeColor:home,awayColor:away,formationHome:'433',formationAway:'442',depthHome:'middle',depthAway:'middle',thirdColor:'#f0ae39',viewMode:'full',fieldLogo:'',fieldLogoOpacity:16,fieldLogoEnabled:true};frames=[initialFrame()];currentFrame=0;time=0;selected=null;multiSelected.clear();pending=[];history=[];orientation='h';boards=[];boardIndex=0;const title='Bord 1 · Keeper aan de bal';boards.push({id:nextId(),title,frames:clone(frames),settings:clone(settings),orientation,currentFrame:0,time:0,preset:'keeper',userRenamed:false});$('preset').value='keeper';setOrientation('h',false);syncAppearance();updateBoardTabs();updateUI();mark();}
+function storeBoard(){const b=boards[boardIndex];if(!b)return;b.frames=clone(frames);b.settings=clone(settings);b.orientation=orientation;b.currentFrame=currentFrame;b.time=time;b.preset=$('preset').value;}
+function updateBoardTabs(){const host=$('boardTabs');host.replaceChildren();boards.forEach((b,i)=>{const btn=document.createElement('button');btn.className=i===boardIndex?'active':'';btn.textContent=b.title||('Bord '+(i+1));btn.title=b.title+' · Klik om te openen';btn.onclick=()=>switchBoard(i);host.appendChild(btn);});const current=boards[boardIndex];if(current)$('boardName').value=current.title;}
+function switchBoard(i){if(i<0||i>=boards.length)return;closeTextEditor();closeMagnetEditor();closeShapeEditor();hideContextMenu();stop();storeBoard();boardIndex=i;const b=boards[i];frames=clone(b.frames);settings={lanes:false,flanks:true,halfspaces:true,axis:true,thirds:false,lines:false,zoneLabels:true,zoneShade:true,showNames:true,showNumbers:true,showBall:true,homeColor:home,awayColor:away,thirdColor:'#f0ae39',fieldLogo:'',fieldLogoOpacity:16,fieldLogoEnabled:true,...b.settings};orientation=b.orientation||'h';time=b.time||0;currentFrame=clamp(b.currentFrame||0,0,frames.length-1);selected=null;multiSelected.clear();pending=[];drag=null;history=[];syncAppearance();$('preset').value=templates[b.preset]?b.preset:'keeper';setOrientation(orientation,false);updateBoardTabs();updateUI();mark();report('Bord geopend: '+b.title);}
+function addBoard(empty=false){stop();storeBoard();const number=boards.length+1;const current=boards[boardIndex];let frame=empty?{t:0,label:'Leeg bord',players:[],objects:[],ball:null}:getState(time);frame.t=0;frame.label=empty?'Leeg bord':'Start';const board={id:nextId(),title:'Bord '+number+(empty?' · Nieuwe situatie':' · Vervolg'),frames:[frame],settings:clone(settings),orientation,currentFrame:0,time:0,preset:empty?'keeper':$('preset').value,userRenamed:false};boards.push(board);switchBoard(boards.length-1);report(empty?'Leeg bord toegevoegd. Kies een speelfase.':'Bord toegevoegd op basis van de huidige opstelling. Kies een andere speelfase of versleep magneten.');}
+function renameBoard(){const b=boards[boardIndex];if(!b)return;const val=$('boardName').value.trim();if(!val){$('boardName').value=b.title;return}b.title=val;b.userRenamed=true;updateBoardTabs();scheduleAutosave();report('Bord hernoemd naar '+val+'.');}
+function deleteBoard(){if(boards.length<=1){report('Je project moet minimaal één bord hebben.');return}if(!confirm('Dit bord inclusief zijn animatie verwijderen? De andere borden blijven bestaan.'))return;stop();boards.splice(boardIndex,1);boardIndex=Math.min(boardIndex,boards.length-1);const next=boards[boardIndex];frames=clone(next.frames);settings={...settings,...next.settings};orientation=next.orientation||'h';currentFrame=next.currentFrame||0;time=next.time||0;history=[];selected=null;multiSelected.clear();pending=[];syncAppearance();$('preset').value=next.preset||'keeper';setOrientation(orientation,false);updateBoardTabs();updateUI();mark();report('Bord verwijderd. Andere borden zijn bewaard.');}
+function active(){return frames[currentFrame];}
+function snapshot(){history.push(JSON.stringify({frames,currentFrame,time,selected,multiSelected:[...multiSelected],settings,orientation,idSeq}));if(history.length>55)history.shift();$('undo').disabled=false;}
+function undo(){if(!history.length)return;const h=JSON.parse(history.pop());frames=h.frames;currentFrame=h.currentFrame;time=h.time;selected=h.selected;multiSelected=new Set(h.multiSelected||[]);settings=h.settings;orientation=h.orientation;idSeq=h.idSeq;setOrientation(orientation,false);syncAppearance();updateUI();mark();}
+function mark(){dirty=true;render();scheduleAutosave();}
+function report(m){lastStatus=m;$('status').textContent=m;}
+function isDark(hex){if(!/^#[0-9a-f]{6}$/i.test(hex))return false;const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return .2126*r+.7152*g+.0722*b<145;}
+function syncAppearance(){for(const k in settings){const el=$(k);if(el){if(el.type==='checkbox')el.checked=!!settings[k];else if(el.type==='color')el.value=settings[k];}}$('legendHome').style.background=settings.homeColor||home;$('legendAway').style.background=settings.awayColor||away;$('legendThird').style.background=settings.thirdColor||'#f0ae39';document.querySelectorAll('[data-team] [data-color]').forEach(btn=>{const current=btn.closest('[data-team]').dataset.team==='red'?(settings.homeColor||home):(settings.awayColor||away);btn.classList.toggle('chosen',btn.dataset.color.toLowerCase()===current.toLowerCase());});
+ if($('homeFormation'))$('homeFormation').value=formations[settings.formationHome]?settings.formationHome:'433';
+ if($('awayFormation'))$('awayFormation').value=formations[settings.formationAway]?settings.formationAway:'442';
+ if($('homeDepth'))$('homeDepth').value=settings.depthHome||'middle';
+ if($('awayDepth'))$('awayDepth').value=settings.depthAway||'middle';
+ if($('viewMode'))$('viewMode').value=settings.viewMode||'full'; if($('fieldLogoOpacityLabel')){$('fieldLogoOpacityLabel').textContent=String(settings.fieldLogoOpacity??16)+'%';$('fieldLogoOpacity').value=settings.fieldLogoOpacity??16;} updateHalfButton();
+ for(const btn of document.querySelectorAll('[data-linecolor]')){const kind=btn.dataset.linecolor;const color=kind==='home'?(settings.homeColor||home):kind==='away'?(settings.awayColor||away):kind==='third'?(settings.thirdColor||'#f0ae39'):gold;btn.querySelector('i').style.setProperty('--swatch',color);}
+} 
+function colorTeam(team,color){if(!/^#[0-9a-f]{6}$/i.test(color))return;const key=team==='red'?'homeColor':team==='white'?'awayColor':'thirdColor';snapshot();settings[key]=color;syncAppearance();mark();report('Alle 11 magneten van '+(team==='red'?'het eigen team':team==='white'?'de tegenstander':'de derde partij')+' zijn nu '+color+'.');}
+function placeBall(x,y){ensurePaused();ensureEditFrame();snapshot();active().ball={x:clamp(x,0,1),y:clamp(y,0,1)};settings.showBall=true;syncAppearance();mark();report('Bal geplaatst. Sleep de bal om hem te verplaatsen.');}
+
+function viewBounds(){return settings.viewMode==='own'?[0,.5]:settings.viewMode==='attacking'?[.5,1]:settings.viewMode==='twoOwn'?[0,2/3]:settings.viewMode==='twoAttacking'?[1/3,1]:[0,1];}
+function field(){const mode=settings.viewMode||'full';if(mode==='full')return orientation==='h'?{x:45,y:25,w:1010,h:590}:{x:322,y:16,w:456,h:608};if(mode==='twoOwn'||mode==='twoAttacking')return orientation==='h'?{x:182,y:25,w:736,h:590}:{x:286,y:37,w:528,h:566};return orientation==='h'?{x:318,y:25,w:464,h:590}:{x:286,y:96,w:528,h:448};}
+function map(p){const f=field(),[a,b]=viewBounds(),relative=(p.x-a)/(b-a);return orientation==='h'?{x:f.x+relative*f.w,y:f.y+p.y*f.h}:{x:f.x+(1-p.y)*f.w,y:f.y+(1-relative)*f.h};}
+function unmap(x,y){const f=field(),[a,b]=viewBounds();return orientation==='h'?{x:clamp(a+(x-f.x)/f.w*(b-a),a,b),y:clamp((y-f.y)/f.h,0,1)}:{x:clamp(a+(1-(y-f.y)/f.h)*(b-a),a,b),y:clamp(1-(x-f.x)/f.w,0,1)};}
+function withinField(pt){const f=field();return pt.x>=f.x&&pt.x<=f.x+f.w&&pt.y>=f.y&&pt.y<=f.y+f.h;}
+function clipPitch(){const f=field();ctx.beginPath();ctx.rect(f.x,f.y,f.w,f.h);ctx.clip();} 
+function updateHalfButton(){const half=settings.viewMode&&settings.viewMode!=='full';$('fitHalf').classList.toggle('visible',!!half);} 
+function setViewMode(mode){if(!['full','own','attacking','twoOwn','twoAttacking'].includes(mode))return;settings.viewMode=mode;updateHalfButton();mark();report(mode==='full'?'Volledig speelveld zichtbaar.':'Velddeel ingesteld. Eigen team speelt horizontaal van links naar rechts en verticaal van onder naar boven.');}
+function fitHalf(){const [a,b]=viewBounds();if(a===0&&b===1)return;ensurePaused();ensureEditFrame();snapshot();for(const f of frames){for(const p of f.players)p.x=a+(b-a)*(.055+.89*clamp(p.x,0,1));if(f.ball)f.ball.x=a+(b-a)*(.055+.89*clamp(f.ball.x,0,1));for(const o of f.objects){if(o.a)o.a.x=a+(b-a)*(.055+.89*clamp(o.a.x,0,1));if(o.b)o.b.x=a+(b-a)*(.055+.89*clamp(o.b.x,0,1));if(o.points)for(const p of o.points)p.x=a+(b-a)*(.055+.89*clamp(p.x,0,1));}}mark();report('Magneten, bal en tekeningen van alle animatiestappen binnen dit halve veld geplaatst.');}
+function mp(x,y){return map({x,y});}
+function line(points,color='#fff',width=1,closed=false,dash=[]){ctx.beginPath();points.forEach(([x,y],i)=>{const p=mp(x,y);i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y)});if(closed)ctx.closePath();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.setLineDash(dash);ctx.stroke();ctx.setLineDash([]);}
+function fillPoly(points,fill,stroke=null,width=1,dash=[]){if(points.length<3)return;ctx.beginPath();points.forEach(([x,y],i)=>{let p=mp(x,y);i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y)});ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.setLineDash(dash);ctx.stroke();ctx.setLineDash([])}}
+function rectangle(x1,y1,x2,y2,color,width=1){line([[x1,y1],[x2,y1],[x2,y2],[x1,y2]],color,width,true)}
+function circleWorld(x,y,rx,ry){ctx.beginPath();for(let i=0;i<=56;i++){const a=i*2*Math.PI/56,p=mp(x+rx*Math.cos(a),y+ry*Math.sin(a));if(i)ctx.lineTo(p.x,p.y);else ctx.moveTo(p.x,p.y);}ctx.closePath()}
+
+// Logo blijft proportioneel: nooit tekenen met een geforceerd vierkant.
+let logoImage=null,logoImageSrc='';
+function getFieldLogo(){const src=settings.fieldLogo||'';if(!src){logoImage=null;logoImageSrc='';return null;}if(src!==logoImageSrc){logoImageSrc=src;logoImage=new Image();logoImage.onload=()=>mark();logoImage.onerror=()=>{logoImage=null;report('Kon logo niet tekenen; kies een PNG, JPG of WebP.');};logoImage.src=src;}return logoImage?.complete&&logoImage.naturalWidth>0&&logoImage.naturalHeight>0?logoImage:null;}
+function drawFieldLogo(f){if(!settings.fieldLogoEnabled)return;const img=getFieldLogo();if(!img)return;const maxW=f.w*0.46,maxH=f.h*0.44,scale=Math.min(maxW/img.naturalWidth,maxH/img.naturalHeight);const w=img.naturalWidth*scale,h=img.naturalHeight*scale;ctx.save();ctx.globalAlpha=clamp((settings.fieldLogoOpacity??16)/100,0.03,0.45);ctx.drawImage(img,f.x+(f.w-w)/2,f.y+(f.h-h)/2,w,h);ctx.restore();}
+function uploadFieldLogo(file){if(!file)return;if(!['image/png','image/jpeg','image/webp'].includes(file.type)){report('Gebruik PNG, JPG of WebP voor het veldlogo.');return;}if(file.size>12*1024*1024){report('Logo is te groot (maximum 12 MB).');return;}const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{const maxSide=1400,scale=Math.min(1,maxSide/Math.max(img.naturalWidth,img.naturalHeight));const tmp=document.createElement('canvas');tmp.width=Math.max(1,Math.round(img.naturalWidth*scale));tmp.height=Math.max(1,Math.round(img.naturalHeight*scale));tmp.getContext('2d').drawImage(img,0,0,tmp.width,tmp.height);settings.fieldLogo=tmp.toDataURL('image/png');settings.fieldLogoEnabled=true;logoImageSrc='';logoImage=null;syncAppearance();mark();report('Logo geplaatst met behoud van de originele breedte-hoogteverhouding.');};img.onerror=()=>report('Dit logobestand kan niet worden geladen.');img.src=String(reader.result||'');};reader.readAsDataURL(file);}
+
+function pitch(){
+ctx.clearRect(0,0,W,H);ctx.fillStyle='#10212b';ctx.fillRect(0,0,W,H);
+const f=field();ctx.save();ctx.shadowColor='#0009';ctx.shadowBlur=25;ctx.fillStyle='#236b48';ctx.fillRect(f.x,f.y,f.w,f.h);ctx.restore();
+ctx.save();clipPitch();
+for(let k=0;k<10;k++){fillPoly([[k/10,0],[(k+1)/10,0],[(k+1)/10,1],[k/10,1]], k%2?'#ffffff06':'#00000006');}
+drawFieldLogo(f);
+if(settings.lanes){for(let j=0;j<5;j++){const ok=j===0||j===4?settings.flanks:j===1||j===3?settings.halfspaces:settings.axis;if(!ok)continue;const col=j===0||j===4?'#5acaf4':j===2?'#93acff':'#ffcb65';fillPoly([[0,j/5],[1,j/5],[1,(j+1)/5],[0,(j+1)/5]],settings.zoneShade?col+'22':'#00000000');if(settings.zoneLabels){const c=orientation==='v'?{x:mp(.5,(j+.5)/5).x,y:f.y+18}:mp(.51,(j+.5)/5);ctx.save();ctx.fillStyle='#ecf9ffdf';ctx.font=(orientation==='v'?'700 12px':'700 14px')+' Segoe UI';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(j===0||j===4?'FLANK':j===2?'AS':'HALFSPACE',c.x,c.y);ctx.restore();}}for(let j=1;j<5;j++)line([[0,j/5],[1,j/5]],'#ffffff47',1,false,[8,8]);}
+if(settings.thirds){for(let j=0;j<3;j++){fillPoly([[j/3,0],[(j+1)/3,0],[(j+1)/3,1],[j/3,1]], settings.zoneShade?(j===1?'#f9c4550c':'#c6d7f10b'):'#00000000');if(settings.zoneLabels&&(j+.5)/3>=viewBounds()[0]&&(j+.5)/3<=viewBounds()[1]){const pt=orientation==='v'?{x:f.x+f.w-56,y:clamp(mp((j+.5)/3,.5).y,f.y+46,f.y+f.h-22)}:mp((j+.5)/3,.955);ctx.save();ctx.fillStyle='#f7f5dc';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=(orientation==='v'?'700 13px':'700 15px')+' Segoe UI';const label='FASE '+(j+1),w=ctx.measureText(label).width+13;ctx.fillStyle='#0c2435ca';ctx.beginPath();ctx.roundRect(pt.x-w/2,pt.y-11,w,22,5);ctx.fill();ctx.fillStyle='#fff2cb';ctx.fillText(label,pt.x,pt.y);ctx.restore();}}line([[1/3,0],[1/3,1]],'#edc778cc',2,false,[9,7]);line([[2/3,0],[2/3,1]],'#edc778cc',2,false,[9,7]);}
+if(settings.lines){line([[.25,0],[.25,1]],'#ffffff46',1,false,[4,9]);line([[.5,0],[.5,1]],'#ffffff46',1,false,[4,9]);line([[.75,0],[.75,1]],'#ffffff46',1,false,[4,9]);}
+rectangle(0,0,1,1,'#ffffffe8',2.2);line([[.5,0],[.5,1]],'#ffffffcf',2);circleWorld(.5,.5,.091,.135);ctx.strokeStyle='#ffffffcf';ctx.lineWidth=2;ctx.stroke();
+rectangle(0,.2,.165,.8,'#ffffffdf',2);rectangle(.835,.2,1,.8,'#ffffffdf',2);rectangle(0,.36,.055,.64,'#ffffffdf',1.9);rectangle(.945,.36,1,.64,'#ffffffdf',1.9);const pp=mp(.11,.5);const qp=mp(.89,.5);for(const p of [pp,qp]){ctx.beginPath();ctx.arc(p.x,p.y,2.5,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill()}
+// goal line projections
+line([[-.011,.435],[0,.435]],'#fff',3);line([[-.011,.565],[0,.565]],'#fff',3);line([[1,.435],[1.011,.435]],'#fff',3);line([[1,.565],[1.011,.565]],'#fff',3);
+const mid=mp(.5,.5);ctx.beginPath();ctx.arc(mid.x,mid.y,3,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.restore();
+ctx.save();ctx.strokeStyle='#ffffffe8';ctx.lineWidth=2.2;ctx.strokeRect(f.x,f.y,f.w,f.h);ctx.restore();
+}
+function getState(t){if(frames.length===1)return clone(frames[0]);let lo=frames[0],hi=frames[frames.length-1];for(let i=0;i<frames.length-1;i++){if(t>=frames[i].t && t<=frames[i+1].t){lo=frames[i];hi=frames[i+1];break;}}if(t>=hi.t)return clone(hi);let z=(t-lo.t)/(hi.t-lo.t);z=clamp(z,0,1);const a=clone(lo);if(lo.ball&&hi.ball){a.ball={x:lerp(lo.ball.x,hi.ball.x,z),y:lerp(lo.ball.y,hi.ball.y,z)};}else{a.ball=clone(lo.ball||hi.ball||presetBalls.keeper);}const end=new Map(hi.players.map(p=>[p.id,p]));for(let p of a.players){const b=end.get(p.id);if(b){p.x=lerp(p.x,b.x,z);p.y=lerp(p.y,b.y,z);p.glow=z>.5?b.glow:p.glow;}}a.objects=clone(lo.objects);const ends=new Map(hi.objects.map(o=>[o.id,o]));for(const o of a.objects){const b=ends.get(o.id);if(!b)continue;if(o.a&&b.a){o.a.x=lerp(o.a.x,b.a.x,z);o.a.y=lerp(o.a.y,b.a.y,z)}if(o.b&&b.b){o.b.x=lerp(o.b.x,b.b.x,z);o.b.y=lerp(o.b.y,b.b.y,z)}if(o.points&&b.points&&o.points.length===b.points.length)o.points=o.points.map((p,i)=>({x:lerp(p.x,b.points[i].x,z),y:lerp(p.y,b.points[i].y,z)}));}return a;}
+function screenDist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+function playerLoc(p){return map(p)}
+function drawArrow(a,b,color,width=4,dashed=false){const s=map(a),e=map(b);const ang=Math.atan2(e.y-s.y,e.x-s.x),size=13+width;ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=width;ctx.lineCap='round';ctx.setLineDash(dashed?[Math.max(7,width*2.7),Math.max(6,width*2.2)]:[]);ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(e.x,e.y);ctx.stroke();ctx.setLineDash([]);ctx.beginPath();ctx.moveTo(e.x,e.y);ctx.lineTo(e.x-size*Math.cos(ang-.45),e.y-size*Math.sin(ang-.45));ctx.lineTo(e.x-size*Math.cos(ang+.45),e.y-size*Math.sin(ang+.45));ctx.closePath();ctx.fill();}
+function textBox(o,players){
+  if(o.type!=='text'&&o.type!=='playerNote')return null;
+  let p;
+  if(o.type==='playerNote'){
+    const player=players.find(p=>p.id===o.playerId);if(!player)return null;
+    const anchor=map(player);p={x:anchor.x+(o.offset?.x??0),y:anchor.y+(o.offset?.y??-48)};
+  }else p=map(o.a);
+  ctx.save();ctx.font=o.type==='playerNote'?'700 14px Segoe UI':'700 16px Segoe UI';
+  const w=Math.min(420,Math.max(44,ctx.measureText((o.text||'Tekst').slice(0,95)).width+22));ctx.restore();
+  return{x:p.x-w/2,y:p.y-16,w,h:30};
+}
+function drawShape(o,players,t,emphasize){const col=o.color||gold, width=o.width||4;ctx.save();if(emphasize){ctx.shadowColor=col;ctx.shadowBlur=13;}if(['cone','dummy','trainingGoal','fieldLine'].includes(o.type)){drawTraining(o);}else if(o.type==='arrow'){drawArrow(o.a,o.b,col,width,o.dashed===true)}else if(o.type==='rect'){const p=o.a,q=o.b;fillPoly([[p.x,p.y],[q.x,p.y],[q.x,q.y],[p.x,q.y]],col+'35',col,width,o.dashed?[9,7]:[])}else if(o.type==='polygon'){fillPoly(o.points.map(p=>[p.x,p.y]),col+'3d',col,width,o.dashed?[9,7]:[])}else if(o.type==='linked'){
+const byId=new Map(players.map(p=>[p.id,p]));const pts=o.anchors.map(id=>byId.get(id)).filter(Boolean);if(pts.length>=3){fillPoly(pts.map(p=>[p.x,p.y]),col+'40',col,width,o.dashed?[9,7]:[]);for(const p of pts){const xy=map(p);ctx.fillStyle=col;ctx.beginPath();ctx.arc(xy.x,xy.y,3.7,0,2*Math.PI);ctx.fill();}}}
+else if(o.type==='linkedLine'){
+  // Resolve every magnet from its ID at the CURRENT animation time: segments therefore
+  // remain attached to individual players even while frames interpolate.
+  const byId=new Map(players.map(p=>[p.id,p]));
+  const ps=(o.anchors||[]).map(id=>byId.get(id)).filter(Boolean);
+  if(ps.length>=2){
+    ctx.strokeStyle=col;ctx.lineWidth=width;ctx.lineCap='round';ctx.lineJoin='round';
+    ctx.setLineDash(o.dashed?[Math.max(7,width*2.5),Math.max(5,width*1.8)]:[]);
+    ctx.beginPath();ps.forEach((p,i)=>{const s=map(p);if(i)ctx.lineTo(s.x,s.y);else ctx.moveTo(s.x,s.y);});ctx.stroke();ctx.setLineDash([]);
+    // Small anchor knots make the individual connections clear.
+    for(const p of ps){const s=map(p);ctx.fillStyle=col;ctx.beginPath();ctx.arc(s.x,s.y,Math.max(2.5,width*.8),0,2*Math.PI);ctx.fill();}
+  }
+}
+else if(o.type==='text'||o.type==='playerNote'){
+const box=textBox(o,players);if(!box){ctx.restore();return;}
+ctx.fillStyle=o.type==='playerNote'?'#0a1e2de9':'#07131bdc';ctx.beginPath();ctx.roundRect(box.x,box.y,box.w,box.h,o.type==='playerNote'?9:6);ctx.fill();
+if(o.type==='playerNote'){ctx.strokeStyle=col+'b0';ctx.lineWidth=1.5;ctx.stroke();}
+ctx.font=o.type==='playerNote'?'700 14px Segoe UI':'700 16px Segoe UI';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle=col;
+ctx.fillText((o.text||'Tekst').slice(0,95),box.x+box.w/2,box.y+box.h/2);
+ctx.textBaseline='alphabetic';
+}
+if(o.label&&['linked','linkedLine','rect','polygon','arrow','fieldLine'].includes(o.type)){
+ const spot=shapeCenter(o,{players});if(spot){const pt=map(spot);ctx.save();ctx.shadowBlur=0;ctx.font='700 14px Segoe UI';const title=o.label.slice(0,95);const bw=Math.min(500,ctx.measureText(title).width+22);const yy=pt.y-34;ctx.fillStyle='#0c1a2be9';ctx.beginPath();ctx.roundRect(pt.x-bw/2,yy-13,bw,26,6);ctx.fill();ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.stroke();ctx.fillStyle='#fff7e3';ctx.textBaseline='middle';ctx.textAlign='center';ctx.fillText(title,pt.x,yy);ctx.restore();}
+}
+ctx.restore();}
+function drawTraining(o){
+ const pt=map(o.a),col=o.color||'#f3bd56';ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
+ if(o.type==='cone'){
+   // Top-down professional disc cone with socket and shadow.
+   ctx.shadowColor='#000a';ctx.shadowBlur=9;ctx.shadowOffsetY=4;
+   ctx.beginPath();ctx.ellipse(pt.x,pt.y+3,13,10,0,0,Math.PI*2);ctx.fillStyle='#10241fac';ctx.fill();
+   ctx.shadowBlur=0;ctx.shadowOffsetY=0;const grad=ctx.createRadialGradient(pt.x-4,pt.y-5,2,pt.x,pt.y,13);
+   grad.addColorStop(0,'#fffbd1');grad.addColorStop(.22,col);grad.addColorStop(1,'#ad5a11');
+   ctx.beginPath();ctx.ellipse(pt.x,pt.y,12,9,0,0,Math.PI*2);ctx.fillStyle=grad;ctx.fill();ctx.strokeStyle='#fff9';ctx.lineWidth=1;ctx.stroke();
+   ctx.beginPath();ctx.ellipse(pt.x,pt.y,5,3.8,0,0,Math.PI*2);ctx.fillStyle='#252f37';ctx.fill();ctx.strokeStyle='#fff9';ctx.stroke();
+ }else if(o.type==='dummy'){
+   // Slalom pole as seen on a bird's-eye training plan, with realistic upright inset.
+   ctx.shadowColor='#0009';ctx.shadowBlur=7;ctx.shadowOffsetY=3;
+   ctx.fillStyle='#102b35';ctx.beginPath();ctx.ellipse(pt.x+5,pt.y+5,12,5,-.5,0,Math.PI*2);ctx.fill();
+   ctx.shadowBlur=0;ctx.shadowOffsetY=0;
+   ctx.fillStyle='#eff5f8';ctx.strokeStyle='#34404b';ctx.lineWidth=1.5;
+   ctx.beginPath();ctx.ellipse(pt.x,pt.y+3,8.5,5.5,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+   ctx.strokeStyle='#faf6e9';ctx.lineWidth=6;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(pt.x,pt.y+2);ctx.lineTo(pt.x,pt.y-25);ctx.stroke();
+   ctx.strokeStyle=col;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(pt.x,pt.y-24);ctx.lineTo(pt.x,pt.y-15);ctx.moveTo(pt.x,pt.y-8);ctx.lineTo(pt.x,pt.y-4);ctx.stroke();
+   ctx.fillStyle=col;ctx.beginPath();ctx.arc(pt.x,pt.y-25,4,0,Math.PI*2);ctx.fill();
+ }else if(o.type==='trainingGoal'){
+   const widthPx=(o.size||.10)*(orientation==='h'?field().w:field().h);
+   const wid=clamp(widthPx,30,240),depth=Math.min(30,wid*.38),rot=(o.rotation||0)*Math.PI/180;
+   ctx.translate(pt.x,pt.y);ctx.rotate(rot+(orientation==='v'?Math.PI/2:0));
+   // The goal mouth is the vertical bar, opening at x=-depth/2.
+   ctx.fillStyle='#d4eaff12';ctx.strokeStyle='#f5faff';ctx.lineWidth=3;
+   ctx.beginPath();ctx.rect(-depth/2,-wid/2,depth,wid);ctx.fill();ctx.stroke();
+   ctx.lineWidth=1;ctx.strokeStyle='#dff2ff84';for(let i=-wid/2+9;i<wid/2;i+=10){ctx.beginPath();ctx.moveTo(-depth/2,i);ctx.lineTo(depth/2,i);ctx.stroke();}for(let i=-depth/2+8;i<depth/2;i+=10){ctx.beginPath();ctx.moveTo(i,-wid/2);ctx.lineTo(i,wid/2);ctx.stroke();}
+   ctx.strokeStyle='#f4c563';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(-depth/2,-wid/2);ctx.lineTo(-depth/2,wid/2);ctx.stroke();
+ }else if(o.type==='fieldLine'){
+   ctx.restore();const st=map(o.a),en=map(o.b);ctx.save();ctx.strokeStyle=col;ctx.lineWidth=o.width||3;ctx.setLineDash(o.dashed?[10,7]:[]);ctx.beginPath();ctx.moveTo(st.x,st.y);ctx.lineTo(en.x,en.y);ctx.stroke();ctx.setLineDash([]);
+ }
+ if(!exporting&&(multiSelected.has('s:'+o.id)||(selected?.type==='shape'&&selected.id===o.id))){ctx.strokeStyle='#ffdc7b';ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.beginPath();ctx.arc(pt.x,pt.y,Math.max(o.type==='trainingGoal'?24:25,(o.size||.05)*130),0,Math.PI*2);ctx.stroke();}
+ ctx.restore();
+}
+function drawPlayer(p,t){const s=map(p),r=14;ctx.save();if(p.glow){let pulse=1+Math.sin(t*5)*.09;ctx.globalAlpha=.22;ctx.fillStyle='#f5c560';ctx.beginPath();ctx.arc(s.x,s.y,27*pulse,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.9;ctx.strokeStyle='#ffe699';ctx.lineWidth=3;ctx.beginPath();ctx.arc(s.x,s.y,23*pulse,0,Math.PI*2);ctx.stroke();}ctx.shadowBlur=8;ctx.shadowColor='#03130b';const playerColor=p.team==='red'?(settings.homeColor||home):p.team==='white'?(settings.awayColor||away):(settings.thirdColor||'#f0ae39');ctx.fillStyle=playerColor;ctx.beginPath();ctx.arc(s.x,s.y,r,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.lineWidth=2;ctx.strokeStyle=isDark(playerColor)?'#d2dce8':'#142033';ctx.stroke();ctx.textAlign='center';const code=String(p.number??'').slice(0,3);ctx.font=(code.length>=3?'800 9px Segoe UI':code.length===2?'800 11px Segoe UI':'800 13px Segoe UI');ctx.fillStyle=isDark(playerColor)?'#ffffff':'#152434';if(settings.showNumbers!==false)ctx.fillText(code,s.x,s.y+4.5);if(settings.showNames&&p.name&&p.name.trim()){const name=p.name.trim().slice(0,45);ctx.font='700 12px Segoe UI';const bw=Math.min(210,ctx.measureText(name).width+15);const yy=s.y+22;ctx.fillStyle='#081827de';ctx.beginPath();ctx.roundRect(s.x-bw/2,yy,bw,19,5);ctx.fill();ctx.fillStyle='#fff8e7';ctx.textBaseline='middle';ctx.fillText(name,s.x,yy+9.5);ctx.textBaseline='alphabetic';}if(!exporting&&(multiSelected.has('p:'+p.id)||(selected?.type==='player'&&selected.id===p.id))){ctx.lineWidth=2;ctx.strokeStyle='#ffd96b';ctx.beginPath();ctx.arc(s.x,s.y,20,0,2*Math.PI);ctx.stroke();}ctx.restore();}
+function drawBall(ball){if(!settings.showBall||!ball)return;const s=map(ball),r=10;ctx.save();ctx.shadowColor='#081c1c';ctx.shadowBlur=10;ctx.shadowOffsetY=3;ctx.fillStyle='#fffaf0';ctx.strokeStyle='#121c25';ctx.lineWidth=2;ctx.beginPath();ctx.arc(s.x,s.y,r,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.shadowBlur=0;ctx.fillStyle='#1b2632';ctx.beginPath();for(let i=0;i<5;i++){const a=i*Math.PI*2/5-Math.PI/2;ctx.lineTo(s.x+Math.cos(a)*4.5,s.y+Math.sin(a)*4.5)}ctx.closePath();ctx.fill();for(let i=0;i<5;i++){const a=i*Math.PI*2/5-Math.PI/2;ctx.beginPath();ctx.moveTo(s.x+Math.cos(a)*7,s.y+Math.sin(a)*7);ctx.lineTo(s.x+Math.cos(a)*10,s.y+Math.sin(a)*10);ctx.stroke();}if(!exporting&&selected?.type==='ball'){ctx.strokeStyle='#f7cb64';ctx.lineWidth=2;ctx.beginPath();ctx.arc(s.x,s.y,15,0,Math.PI*2);ctx.stroke();}ctx.restore();}
+function ballAt(pos){if(!settings.showBall)return false;const ball=getState(time).ball;return !!ball&&screenDist(map(ball),pos)<16;}
+function drawPending(){if(pending.length===0)return;const color=$('objectColor').value;if(tool==='linked'||tool==='linkedLine'){const state=getState(time),byId=new Map(state.players.map(p=>[p.id,p]));const pts=pending.map(id=>byId.get(id)).filter(Boolean);if(pts.length>1)line(pts.map(p=>[p.x,p.y]),color,3,false,tool==='linkedLine'?[]:[5,5]);for(const p of pts){const s=map(p);ctx.beginPath();ctx.arc(s.x,s.y,20,0,2*Math.PI);ctx.strokeStyle='#f6e185';ctx.lineWidth=2;ctx.stroke();}}else if(tool==='polygon'){const pts=pending.map(p=>[p.x,p.y]);if(pts.length>=2)line(pts,color,3,false,[6,5]);for(const p of pending){const s=map(p);ctx.beginPath();ctx.arc(s.x,s.y,4,0,2*Math.PI);ctx.fillStyle=color;ctx.fill();}}}
+function render(){const state=getState(time);pitch();ctx.save();clipPitch();for(const o of state.objects)drawShape(o,state.players,time,!exporting&&(multiSelected.has('s:'+o.id)||(selected?.type==='shape'&&selected.id===o.id)));for(const p of state.players)drawPlayer(p,time);drawBall(state.ball);ctx.restore();if(!exporting){drawPending();drawSelectionHandles(state);if(drag?.mode==='marquee'){const a=drag.startCanvas,b=drag.previewCanvas;ctx.save();ctx.fillStyle='#ffcb5330';ctx.strokeStyle='#ffe4a0';ctx.setLineDash([10,6]);ctx.lineWidth=2;ctx.fillRect(Math.min(a.x,b.x),Math.min(a.y,b.y),Math.abs(b.x-a.x),Math.abs(b.y-a.y));ctx.strokeRect(Math.min(a.x,b.x),Math.min(a.y,b.y),Math.abs(b.x-a.x),Math.abs(b.y-a.y));ctx.restore();}}if(!exporting&&drag?.preview){const color=$('objectColor').value;if(tool==='fieldLine'){ctx.save();const st=map(drag.start),en=map(drag.preview);ctx.strokeStyle=color;ctx.lineWidth=+$('lineWidth').value;ctx.setLineDash($('arrowStyle').value==='dashed'?[10,7]:[]);ctx.beginPath();ctx.moveTo(st.x,st.y);ctx.lineTo(en.x,en.y);ctx.stroke();ctx.restore();}if(tool==='arrow'||tool==='dashedArrow')drawArrow(drag.start,drag.preview,color,+$('lineWidth').value,tool==='dashedArrow'||$('arrowStyle').value==='dashed');if(tool==='rect')drawShape({type:'rect',a:drag.start,b:drag.preview,color,width:+$('lineWidth').value},state.players,time,false);}dirty=false;if(presentationMode&&!exporting){presentationCtx.clearRect(0,0,W,H);presentationCtx.drawImage(canvas,0,0,W,H);}}
+function shapeHandles(o){if(!o)return[];if(o.type==='fieldLine')return [{key:'a',point:map(o.a)},{key:'b',point:map(o.b)}];if(o.type==='arrow'||o.type==='rect')return [{key:'a',point:map(o.a)},{key:'b',point:map(o.b)}];if(o.type==='polygon')return o.points.map((p,i)=>({key:'vertex'+i,point:map(p)}));if(o.type==='text')return[];return[];}
+function drawSelectionHandles(state){if(selected?.type!=='shape'||multiSelected.size!==1)return;const o=state.objects.find(o=>o.id===selected.id);if(!o)return;ctx.save();for(const h of shapeHandles(o)){ctx.lineWidth=2;ctx.strokeStyle='#15283c';ctx.fillStyle='#ffda7d';ctx.beginPath();ctx.arc(h.point.x,h.point.y,7,0,Math.PI*2);ctx.fill();ctx.stroke();}ctx.restore();}
+function handleAt(pos){if(selected?.type!=='shape'||multiSelected.size!==1)return null;const o=getState(time).objects.find(o=>o.id===selected.id);if(!o)return null;return shapeHandles(o).find(h=>screenDist(h.point,pos)<12)||null;}
+function selectionKey(type,id){return (type==='player'?'p:':'s:')+id;}
+function setSingle(type,id){selected={type,id};multiSelected.clear();multiSelected.add(selectionKey(type,id));selectionUI();}
+function toggleSelected(type,id){const key=selectionKey(type,id);if(multiSelected.has(key)){multiSelected.delete(key);if(selected?.id===id)selected=null;}else{multiSelected.add(key);selected={type,id};}if(!selected&&multiSelected.size){const last=[...multiSelected].at(-1),[prefix,ident]=last.split(':');selected={type:prefix==='p'?'player':'shape',id:ident};}selectionUI();}
+function boundsHit(q,s){return q.x>=Math.min(s.a.x,s.b.x)&&q.x<=Math.max(s.a.x,s.b.x)&&q.y>=Math.min(s.a.y,s.b.y)&&q.y<=Math.max(s.a.y,s.b.y);}
+function shapeCenter(o,state){if(o.type==='cone'||o.type==='dummy'||o.type==='trainingGoal')return o.a;if(o.type==='fieldLine')return{x:(o.a.x+o.b.x)/2,y:(o.a.y+o.b.y)/2};if(o.type==='arrow'||o.type==='rect')return{x:(o.a.x+o.b.x)/2,y:(o.a.y+o.b.y)/2};if(o.type==='text')return o.a;if(o.type==='playerNote'){const p=state.players.find(p=>p.id===o.playerId);return p?{x:p.x,y:p.y}:null;}if(o.type==='polygon'){const n=o.points.length;return{x:o.points.reduce((a,p)=>a+p.x,0)/n,y:o.points.reduce((a,p)=>a+p.y,0)/n};}if(o.type==='linked'||o.type==='linkedLine'){const byId=new Map(state.players.map(p=>[p.id,p]));const ps=o.anchors.map(id=>byId.get(id)).filter(Boolean);if(ps.length)return{x:ps.reduce((a,p)=>a+p.x,0)/ps.length,y:ps.reduce((a,p)=>a+p.y,0)/ps.length};}return null;}
+
+let liveColorTransaction=false;
+function recolorSelected(value){
+ const ids=new Set([...multiSelected].filter(k=>k.startsWith('s:')).map(k=>k.slice(2)));
+ if(selected?.type==='shape')ids.add(selected.id);
+ if(!ids.size)return;
+ if(!liveColorTransaction){ensurePaused();ensureEditFrame();snapshot();liveColorTransaction=true;}
+ for(const f of frames)for(const o of f.objects)if(ids.has(o.id))o.color=value;
+ mark();
+}
+function openObjectAppearance(){
+ const panel=$('objectColor').closest('.sidefold');if(!panel)return;
+ document.querySelectorAll('.sidefold').forEach(d=>{d.open=d===panel});
+}
+function toolCompleted(){if(!stickyTool)setTool('select');}
+function clearCurrentBoard(){
+ if(!confirm('Alle magneten, bal, tekeningen én animatiestappen van dit bord wissen? Andere borden blijven behouden.'))return;
+ stop();snapshot();frames=[{t:0,label:'Leeg bord',players:[],objects:[],ball:null}];currentFrame=0;time=0;selected=null;multiSelected.clear();pending=[];drag=null;
+ settings.showBall=false;syncAppearance();setTool('select');updateUI();mark();report('Huidig bord gewist. Andere borden en projectinstellingen zijn behouden.');
+}
+function selectRectangle(a,b,additive){const state=getState(time);if(!additive)multiSelected.clear();const box={a,b};for(const p of state.players){if((selectionFilter==='all'||(selectionFilter!=='objects'&&p.team===selectionFilter))&&boundsHit(map(p),box))multiSelected.add('p:'+p.id)}if(selectionFilter==='all'||selectionFilter==='objects')for(const o of state.objects){const center=shapeCenter(o,state);if(center&&boundsHit(map(center),box))multiSelected.add('s:'+o.id)}if(multiSelected.size){const last=[...multiSelected].at(-1),[prefix,id]=last.split(':');selected={type:prefix==='p'?'player':'shape',id};}else selected=null;selectionUI();mark();report(multiSelected.size+' elementen geselecteerd. Sleep een geselecteerde magneet of tekening om de hele selectie te verplaatsen.');}
+function dragSelection(p){const originals=[];const keys=new Set(multiSelected);
+// Dragging a connected line moves its players together, preserving the connected chain.
+for(const key of multiSelected){if(!key.startsWith('s:'))continue;const o=active().objects.find(z=>z.id===key.slice(2));if(o?.type==='linkedLine')for(const id of o.anchors||[]){const candidate=active().players.find(p=>p.id===id);if(candidate&&(selectionFilter==='all'||(selectionFilter!=='objects'&&candidate.team===selectionFilter)))keys.add('p:'+id);}}
+for(const key of keys){const [type,id]=key.split(':');const obj=type==='p'?active().players.find(z=>z.id===id):active().objects.find(z=>z.id===id);if(obj&&(type!=='p'||selectionFilter==='all'||(selectionFilter!=='objects'&&obj.team===selectionFilter)))originals.push({type,id,original:clone(obj)});}snapshot();drag={mode:'group',start:p,originals,moved:false};}
+function shiftObject(obj,base,dx,dy){if(base.x!==undefined){obj.x=clamp(base.x+dx,0,1);obj.y=clamp(base.y+dy,0,1);}if(base.a)obj.a={x:clamp(base.a.x+dx,0,1),y:clamp(base.a.y+dy,0,1)};if(base.b)obj.b={x:clamp(base.b.x+dx,0,1),y:clamp(base.b.y+dy,0,1)};if(base.points)obj.points=base.points.map(q=>({x:clamp(q.x+dx,0,1),y:clamp(q.y+dy,0,1)}));if(base.type==='playerNote'){const start=map({x:.5,y:.5}),end=map({x:.5+dx,y:.5+dy});obj.offset={x:(base.offset?.x??0)+end.x-start.x,y:(base.offset?.y??-48)+end.y-start.y};}}
+function playerAt(pos,allowed='all'){const ps=getState(time).players;for(let i=ps.length-1;i>=0;i--){if((allowed==='all'||ps[i].team===allowed)&&screenDist(map(ps[i]),pos)<20)return ps[i]}return null;}
+function distanceLine(p,a,b){let dx=b.x-a.x,dy=b.y-a.y;if(dx*dx+dy*dy<1)return screenDist(p,a);const u=clamp(((p.x-a.x)*dx+(p.y-a.y)*dy)/(dx*dx+dy*dy),0,1);return screenDist(p,{x:a.x+u*dx,y:a.y+u*dy});}
+function pointInPolygon(pt,points){let c=false;for(let i=0,j=points.length-1;i<points.length;j=i++){const a=points[i],b=points[j];if(((a.y>pt.y)!==(b.y>pt.y))&&(pt.x<(b.x-a.x)*(pt.y-a.y)/(b.y-a.y)+a.x))c=!c;}return c;}
+function shapeAt(pos){const s=getState(time);for(let i=s.objects.length-1;i>=0;i--){const o=s.objects[i];if((o.type==='arrow'||o.type==='fieldLine')&&distanceLine(pos,map(o.a),map(o.b))<11)return o;
+if(['cone','dummy','trainingGoal'].includes(o.type)&&screenDist(pos,map(o.a))<(o.type==='trainingGoal'?Math.max(25,(o.size||.10)*120):28))return o;
+if(o.type==='linkedLine'){
+  const byId=new Map(s.players.map(p=>[p.id,p]));const nodes=(o.anchors||[]).map(id=>byId.get(id)).filter(Boolean).map(map);
+  for(let j=1;j<nodes.length;j++)if(distanceLine(pos,nodes[j-1],nodes[j])<Math.max(10,(o.width||4)+5))return o;
+}if(o.type==='text'||o.type==='playerNote'){const box=textBox(o,s.players);if(box&&pos.x>=box.x-5&&pos.x<=box.x+box.w+5&&pos.y>=box.y-5&&pos.y<=box.y+box.h+5)return o;}let pts=null;if(o.type==='polygon')pts=o.points.map(map);if(o.type==='linked'){const ids=new Map(s.players.map(p=>[p.id,p]));pts=o.anchors.map(id=>ids.get(id)).filter(Boolean).map(map)}if(o.type==='rect'){pts=[[o.a.x,o.a.y],[o.b.x,o.a.y],[o.b.x,o.b.y],[o.a.x,o.b.y]].map(p=>mp(p[0],p[1]))}if(pts?.length>=3&&pointInPolygon(pos,pts))return o;}return null;}
+function canvasPoint(e){const b=canvas.getBoundingClientRect();return{x:(e.clientX-b.left)*W/b.width,y:(e.clientY-b.top)*H/b.height};}
+function ensurePaused(){if(playing)stop();}
+function ensureEditFrame(){// when scrubbing between frames, snap edits to the closest timeline keyframe
+let best=0,d=Infinity;frames.forEach((f,i)=>{let v=Math.abs(f.t-time);if(v<d){best=i;d=v}});currentFrame=best;time=frames[best].t;}
+function addShape(o){ensureEditFrame();snapshot();const added={id:nextId(),width:+$('lineWidth').value,color:$('objectColor').value,...o};for(let i=currentFrame;i<frames.length;i++)frames[i].objects.push(clone(added));setSingle('shape',added.id);report('Tactische annotatie toegevoegd. De annotatie blijft onderdeel van je animatie.');updateUI();mark();toolCompleted();}
+function finalize(){
+if(tool==='linkedLine'&&pending.length>=2){addShape({type:'linkedLine',anchors:[...pending],dashed:$('arrowStyle').value==='dashed'});pending=[];report('Meebewegende linie gemaakt: de lijn volgt iedere gekoppelde magneet en heeft geen opgevuld vlak.');}
+else if(tool==='linked'&&pending.length>=3){addShape({type:'linked',anchors:[...pending]});pending=[];}
+else if(tool==='polygon'&&pending.length>=3){addShape({type:'polygon',points:clone(pending)});pending=[];}
+else{report(tool==='linkedLine'?'Kies minimaal twee magneten voor een verbonden linie.':'Selecteer minimaal drie punten of spelers om een zone te maken.');}mark();}
+function removeSelected(){if(!selected&&multiSelected.size===0)return;ensurePaused();ensureEditFrame();snapshot();if(selected?.type==='ball'){active().ball=null;}else{const keys=multiSelected.size?[...multiSelected]:[selectionKey(selected.type,selected.id)];const playersToRemove=new Set(keys.filter(k=>k.startsWith('p:')).map(k=>k.slice(2)));const shapesToRemove=new Set(keys.filter(k=>k.startsWith('s:')).map(k=>k.slice(2)));for(const f of frames){f.players=f.players.filter(p=>!playersToRemove.has(p.id));f.objects=f.objects.filter(o=>!shapesToRemove.has(o.id)&&((o.type!=='linked'&&o.type!=='linkedLine')||!o.anchors.some(id=>playersToRemove.has(id)))&&(o.type!=='playerNote'||!playersToRemove.has(o.playerId)));}}selected=null;multiSelected.clear();selectionUI();report('Selectie verwijderd.');updateUI();mark();}
+function selectionUI(){const count=multiSelected.size;const suffix=count>1?' ('+count+' elementen geselecteerd)':'';if(!selected){$('selectionInfo').textContent='Geen object geselecteerd. Trek met Selecteren een kader om meerdere elementen.';$('playerName').value='';$('togglePlayerGlow').classList.remove('active-glow');return}if(selected.type==='ball'){$('playerName').value='';$('selectionInfo').textContent='⚽ Bal geselecteerd. Versleep de bal, of maak een nieuwe animatiestap.';return}if(selected.type==='player'){const p=active().players.find(p=>p.id===selected.id);$('selectionInfo').textContent=p?`Speler ${p.number} (${p.team==='red'?'eigen team':p.team==='white'?'tegenstander':'derde team'})`+suffix+'. Versleep de selectie of pas de spelernaam aan.':'Speler ontbreekt';$('playerName').value=p?.name||'';$('togglePlayerGlow').classList.toggle('active-glow',!!p?.glow);}else{$('playerName').value='';$('togglePlayerGlow').classList.remove('active-glow');const o=active().objects.find(o=>o.id===selected.id);$('selectionInfo').textContent=o?`Geselecteerd: ${({arrow:'Pijl',rect:'Rechthoekige zone',polygon:'Vrije zone',linked:'Gekoppelde zone',linkedLine:'Gekoppelde linielijn',cone:'Pion',dummy:'Slalomstok',trainingGoal:'Trainingsdoel',fieldLine:'Afbakeningslijn',text:'Tekst',playerNote:'Meebewegend spelerslabel'})[o.type]||o.type}`+suffix+'. Kleur, dikte en pijlstijl rechts aanpassen. Hoekpunten zijn versleepbaar.':'Annotatie ontbreekt';if(o){$('objectColor').value=o.color||gold;$('lineWidth').value=String(o.width||4);if(o.type==='trainingGoal'){ $('goalSize').value=Math.round((o.size||.10)*100);$('goalRotation').value=String(o.rotation||0);updateGoalSizeLabel();}if(o.type==='arrow'||o.type==='linkedLine'||o.type==='fieldLine')$('arrowStyle').value=o.dashed?'dashed':'solid';if(o.type==='text'||o.type==='playerNote')$('objectText').value=o.text||'';openObjectAppearance();}}}
+function onDown(e){if(e.button!==0)return;e.preventDefault();ensurePaused();const s=canvasPoint(e),p=unmap(s.x,s.y),isBall=selectionFilter!=='objects'&&ballAt(s),rawHit=isBall?null:(selectionFilter==='objects'&&tool==='select'?null:playerAt(s,tool==='select'?selectionFilter:'all')),hit=rawHit;
+if(['cone','dummy','trainingGoal'].includes(tool)){const shape={type:tool,a:p};if(tool==='trainingGoal'){shape.size=Number($('goalSize').value)/100;shape.rotation=Number($('goalRotation').value);}addShape(shape);report(tool==='cone'?'Pion geplaatst. Klik nogmaals voor een volgende pion.':tool==='dummy'?'Slalomstok geplaatst. Selecteer om hem te verplaatsen.':'Doel geplaatst. Selecteer het en gebruik de maatregelaar om de grootte te wijzigen.');toolCompleted();return;}
+if(tool==='ball'){placeBall(p.x,p.y);selected={type:'ball'};multiSelected.clear();selectionUI();setTool('select');return;}
+if(tool==='linked'||tool==='linkedLine'){
+  if(hit&&!pending.includes(hit.id)){
+    pending.push(hit.id);
+    const min=tool==='linkedLine'?2:3;
+    report(pending.length>=min?`${pending.length} spelers gekoppeld. Klik meer spelers of druk op Verbinding afronden (Enter).`:`${pending.length} speler(s) gekozen. Kies er nog ${min-pending.length}.`);
+    mark();
+  }
+  return;
+}
+if(tool==='polygon'){pending.push(p);mark();return;}
+if(tool==='text'){openTextEditor({point:p,playerId:hit?.id||null,text:$('objectText').value.trim()||''});return;}
+if(tool==='highlight'){if(hit){ensureEditFrame();snapshot();for(const f of frames){let x=f.players.find(z=>z.id===hit.id);if(x)x.glow=!x.glow}setSingle('player',hit.id);updateUI();mark();}else report('Klik op een magneet om de spotlight te wisselen.');toolCompleted();return;}
+if(tool==='erase'&&isBall){ensureEditFrame();snapshot();active().ball=null;selected=null;multiSelected.clear();updateUI();mark();report('Bal verwijderd.');return;}
+if(tool==='erase'){const h=hit||shapeAt(s);if(h){setSingle(hit?'player':'shape',h.id);removeSelected()}toolCompleted();return;}
+if(tool==='select'){
+ if(isBall){selected={type:'ball'};multiSelected.clear();selectionUI();ensureEditFrame();snapshot();drag={mode:'ball',start:p,moved:false};canvas.setPointerCapture(e.pointerId);mark();return;}
+ const handle=handleAt(s);if(handle){ensureEditFrame();snapshot();drag={mode:'handle',id:selected.id,key:handle.key,moved:false};canvas.setPointerCapture(e.pointerId);return;}
+ const shape=((selectionFilter==='all'||selectionFilter==='objects')&&!hit)?shapeAt(s):null;const obj=hit||shape, kind=hit?'player':'shape';
+ if(e.shiftKey){if(obj){toggleSelected(kind,obj.id);mark();return;}drag={mode:'marquee',startCanvas:s,previewCanvas:s,additive:true};canvas.setPointerCapture(e.pointerId);mark();return;}
+ if(obj){const key=selectionKey(kind,obj.id);if(!multiSelected.has(key))setSingle(kind,obj.id);else{selected={type:kind,id:obj.id};selectionUI();}ensureEditFrame();dragSelection(p);canvas.setPointerCapture(e.pointerId);mark();return;}
+ // Empty field starts a selection box, not an immediate deselect
+ drag={mode:'marquee',startCanvas:s,previewCanvas:s,additive:false};canvas.setPointerCapture(e.pointerId);mark();return;
+}
+if(tool==='arrow'||tool==='dashedArrow'||tool==='rect'||tool==='fieldLine'){drag={mode:'new',start:p,preview:p};canvas.setPointerCapture(e.pointerId);mark();}}
+function onMove(e){if(!drag)return;const s=canvasPoint(e),p=unmap(s.x,s.y);if(drag.mode==='marquee'){drag.previewCanvas=s;mark();return;}if(drag.mode==='new'){drag.preview=p;mark();return;}if(drag.mode==='ball'){active().ball={x:p.x,y:p.y};drag.moved=true;mark();return;}
+if(drag.mode==='handle'){const o=active().objects.find(o=>o.id===drag.id);if(o){if(drag.key==='a'||drag.key==='b')o[drag.key]=p;else if(drag.key.startsWith('vertex')){const index=Number(drag.key.slice(6));if(o.points?.[index])o.points[index]=p;}drag.moved=true;mark();}return;}
+if(drag.mode==='group'){const dx=p.x-drag.start.x,dy=p.y-drag.start.y;for(const item of drag.originals){const obj=item.type==='p'?active().players.find(x=>x.id===item.id):active().objects.find(x=>x.id===item.id);if(obj&&obj.type!=='linked'&&obj.type!=='linkedLine'&&!(obj.type==='playerNote'&&multiSelected.has('p:'+obj.playerId)))shiftObject(obj,item.original,dx,dy);}drag.moved=Math.abs(dx)+Math.abs(dy)>.002;mark();}}
+function onUp(e){if(!drag)return;const d=drag;drag=null;if(d.mode==='new'){if(Math.hypot(d.preview.x-d.start.x,d.preview.y-d.start.y)>.015)addShape(tool==='fieldLine'?{type:'fieldLine',a:d.start,b:d.preview,dashed:$('arrowStyle').value==='dashed'}:tool==='arrow'||tool==='dashedArrow'?{type:'arrow',a:d.start,b:d.preview,dashed:tool==='dashedArrow'}:{type:'rect',a:d.start,b:d.preview});}
+else if(d.mode==='marquee'){if(screenDist(d.startCanvas,d.previewCanvas)>7)selectRectangle(d.startCanvas,d.previewCanvas,d.additive);else if(!d.additive){selected=null;multiSelected.clear();selectionUI();}}
+else if(d.mode==='group'||d.mode==='handle'||d.mode==='ball'){if(d.moved)report(d.mode==='handle'?'Punt verplaatst. Pas eventueel stijl of tekst aan.':'Elementen verplaatst. Voeg een animatiestap toe om de beweging te animeren.');else {if(history.length)history.pop();if(d.mode==='group'&&selected?.type==='shape'){const o=active().objects.find(o=>o.id===selected.id);if(o&&(o.type==='text'||o.type==='playerNote'))openTextEditor({shapeId:o.id});}}}
+updateUI();mark();}
+function addFrame(){ensurePaused();const base=getState(time);snapshot();const duration=+$('stepDuration').value;const t=frames[frames.length-1].t+duration;if(frames.length>=30){report('Maximum 30 stappen in deze versie.');return}base.t=t;base.label='Stap '+frames.length;frames.push(base);currentFrame=frames.length-1;time=t;selected=null;multiSelected.clear();updateUI();mark();report(`Stap ${frames.length} toegevoegd op ${t} seconden. Versleep nu spelers en de gekoppelde zone volgt automatisch.`);}
+function deleteFrame(){if(frames.length===1){report('De eerste animatiestap kun je niet verwijderen.');return}ensurePaused();snapshot();frames.splice(currentFrame,1);currentFrame=Math.min(currentFrame,frames.length-1);time=frames[currentFrame].t;selected=null;multiSelected.clear();updateUI();mark();}
+function gotoFrame(i){closeTextEditor();ensurePaused();currentFrame=clamp(i,0,frames.length-1);time=frames[currentFrame].t;selected=null;multiSelected.clear();selectionUI();updateUI();mark();}
+function stop(){playing=false;$('play').textContent='▶ Afspelen';$('animationState').textContent='Gepauzeerd';}
+function play(){if(playing){stop();return}if(frames.length===1){report('Maak eerst een nieuwe animatiestap en versleep daarin één of meer spelers.');return}if(time>=endTime()-.01)time=0;playing=true;playStart=performance.now()-time*1000;$('play').textContent='⏸ Pauzeren';$('animationState').textContent='Animatie speelt';requestAnimationFrame(tick);}
+function tick(now){if(!playing)return;time=(now-playStart)/1000;if(time>endTime()){time=endTime();stop();}syncTime();mark();if(playing)requestAnimationFrame(tick);}
+function endTime(){return Math.max(3,frames[frames.length-1].t);}
+function syncTime(){$('scrub').value=String(time);$('timeLabel').textContent=`${time.toFixed(1).replace('.',',')} / ${endTime().toFixed(1).replace('.',',')} s`;const idx=frames.reduce((acc,f,i)=>time>=f.t-.005?i:acc,0);$('frames').querySelectorAll('button').forEach((btn,i)=>btn.classList.toggle('on',i===idx));}
+function updateUI(){const fs=$('frames');fs.textContent='';frames.forEach((f,i)=>{const b=document.createElement('button');b.innerHTML=`<b>${i===0?'● Start':'◆ '+i}</b><small>${f.t.toFixed(1).replace('.',',')} s · ${f.label||'Animatie'}</small>`;b.onclick=()=>gotoFrame(i);fs.appendChild(b)});$('scrub').max=String(endTime());$('undo').disabled=!history.length;syncTime();selectionUI();}
+function setTool(v,options={}){closeTextEditor();closeMagnetEditor();closeShapeEditor();hideContextMenu();tool=v;stickyTool=!!options.sticky;pending=[];drag=null;$('stickyBadge').classList.toggle('hide',!stickyTool);if(v==='arrow')$('arrowStyle').value='solid';if(v==='dashedArrow')$('arrowStyle').value='dashed';document.querySelectorAll('[data-tool]').forEach(b=>{b.classList.toggle('active',b.dataset.tool===v);b.classList.toggle('sticky',stickyTool&&b.dataset.tool===v);});const help={select:'Trek een selectie-kader om meerdere spelers of tekeningen. Versleep de geselecteerde groep. Met Shift+klik kun je items toevoegen. Klik een pijl-uiteinde of zonehoek om te bewerken.',arrow:'Klik en sleep om een doorgetrokken pijl te tekenen. Voor een gestippelde passlijn kies Gestippelde pijl.',dashedArrow:'Klik en sleep om een gestippelde pijl te tekenen, bijvoorbeeld voor een passlijn.',rect:'Klik en sleep op het veld om een transparante rechthoekige zone te tekenen.',polygon:'Klik minimaal drie hoekpunten. Kies daarna Zone afronden of druk Enter.',linked:'Klik minimaal drie spelersmagneten en kies Verbinding afronden. Deze ingekleurde zone beweegt mee met de magneten.',linkedLine:'Klik twee of meer magneten achter elkaar aan, bijvoorbeeld de vier middenvelders. Kies Verbinding afronden of Enter. Alleen de lijn tussen spelers beweegt mee; geen vlak of pijl.',text:'Klik op het veld en typ direct je tekst. Klik op een speler om er een meebewegend label aan te koppelen. Klik later op een tekst om hem aan te passen.',highlight:'Klik een magneet om een oplichtende highlight aan of uit te zetten.',ball:'Klik ergens op het veld om de bal te plaatsen. Daarna kun je hem slepen met Selecteren.',cone:'Klik op het veld om kleine trainingspionnen te plaatsen. Blijf klikken om meerdere pionnen neer te zetten.',dummy:'Klik om slalomstokken te plaatsen. Selecteer en versleep ze later.',trainingGoal:'Klik waar het doel moet komen. Verander de afmeting met Doelbreedte in Trainingsmateriaal.',fieldLine:'Sleep om een afbakeningslijn te tekenen. Deze kun je aanpassen en animeren.',erase:'Klik op een magneet of annotatie om deze te verwijderen.'};$('toolHint').innerHTML='<strong>'+v+':</strong> '+help[v];mark();}
+function setOrientation(v,redraw=true){orientation=v;$('landscape').classList.toggle('active',v==='h');$('portrait').classList.toggle('active',v==='v');$('directionLegend').textContent=v==='v'?'Spelrichting eigen team ↑':'Spelrichting eigen team →';if(redraw)mark();}
+function applyFormation(team,code){
+ const def=formations[code];if(!def)return;
+ ensurePaused();ensureEditFrame();snapshot();
+ const f=active(),all=f.players.filter(p=>p.team===team);
+ // Stable identity: editing a magnet number does not change who moves in formation.
+ const bySlot=new Map();all.forEach((p,i)=>{const slot=p.slot??canonicalSlots[i];if(!bySlot.has(slot))bySlot.set(slot,p)});
+ const used=new Set(),assign=(slot,x,y)=>{let p=bySlot.get(slot);if(!p||used.has(p.id))p=all.find(z=>!used.has(z.id));if(!p){p=mkP(team,slot,x,y);f.players.push(p);all.push(p);bySlot.set(slot,p);}used.add(p.id);p.x=x;p.y=y;};
+ const isHome=team==='red',level=$(isHome?'homeDepth':'awayDepth').value;
+ const profile={low:{keeper:.055,lines3:[.18,.29,.42],lines4:[.17,.25,.34,.44]},middle:{keeper:.085,lines3:[.28,.49,.73],lines4:[.26,.43,.59,.78]},high:{keeper:.23,lines3:[.50,.69,.85],lines4:[.47,.62,.74,.86]}}[level]||{keeper:.085,lines3:[.28,.49,.73],lines4:[.26,.43,.59,.78]};
+ const [min,max]=viewBounds(),projectX=v=>{const x=isHome?v:1-v;return (max-min<1)?min+.015+(max-min-.03)*x:x;};
+ assign(1,projectX(profile.keeper),.50);
+ const xs=def.lines.length===4?profile.lines4:profile.lines3;
+ def.lines.forEach((numbers,li)=>numbers.forEach((slot,k)=>{
+   const margin=numbers.length===1?.50:numbers.length===2?.32:numbers.length===3?.20:numbers.length===4?.135:.105;
+   const y=numbers.length===1?.5:margin+(1-2*margin)*k/(numbers.length-1);
+   assign(slot,projectX(xs[li]),y);
+ }));
+ settings[isHome?'formationHome':'formationAway']=code;settings[isHome?'depthHome':'depthAway']=level;
+ syncAppearance();updateUI();mark();
+ report((isHome?'Eigen team':'Tegenstander')+' in '+def.label+' · '+level+'.');
+}
+function applyPreset(){ensurePaused();ensureEditFrame();snapshot();const id=$('preset').value,preset=templates[id];const f=active();for(const [idx,set] of [[0,preset.red],[1,preset.white]]){const team=idx?'white':'red';const members=f.players.filter(z=>z.team===team);for(let n=0;n<set.length;n++){const [number,x,y]=set[n];let p=members[n];if(p){p.x=x;p.y=y;}else f.players.push(mkP(team,number,x,y));}}f.ball=clone(presetBalls[id]||presetBalls.keeper);settings.showBall=true;syncAppearance();f.label=preset.label;const b=boards[boardIndex];if(b&&!b.userRenamed){b.title='Bord '+(boardIndex+1)+' · '+preset.label;updateBoardTabs();}updateUI();mark();report('Fase geladen: '+preset.label+'. Je kunt alle magneten nu zelf aanpassen.');}
+
+let exportDirectory=null;
+const folderDbName='ppa-tactical-studio-export-v1';
+function folderLabel(text){$('folderName').textContent=text;$('folderName').title=text;}
+function openDirDb(){return new Promise((resolve,reject)=>{if(!('indexedDB' in window))return reject(Error('Geen lokale opslag voor mapvoorkeur'));const req=indexedDB.open(folderDbName,1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('settings'))req.result.createObjectStore('settings');};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
+async function rememberExportDirectory(handle){const db=await openDirDb();return new Promise((resolve,reject)=>{const tx=db.transaction('settings','readwrite');tx.objectStore('settings').put(handle,'exportDirectory');tx.oncomplete=()=>{db.close();resolve();};tx.onerror=()=>{db.close();reject(tx.error);};});}
+async function restoreExportDirectory(){try{const db=await openDirDb();const d=await new Promise((resolve,reject)=>{const tx=db.transaction('settings','readonly');const r=tx.objectStore('settings').get('exportDirectory');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});db.close();if(d){exportDirectory=d;folderLabel('📁 '+d.name);}}catch(err){/* file:// may not support persistent IndexedDB in every browser */}}
+async function chooseExportDirectory(){if(typeof window.showDirectoryPicker!=='function'){alert('Mapkoppeling is in deze browser of openingswijze niet beschikbaar. Gebruik Chrome/Edge. De offline start via localhost in de ZIP biedt de beste ondersteuning. Zonder maptoegang blijven de gewone downloads werken.');return;}try{const selected=await window.showDirectoryPicker({id:'ppa-export',mode:'readwrite',startIn:'documents'});exportDirectory=selected;folderLabel('📁 '+selected.name);try{await rememberExportDirectory(selected);}catch(err){report('Map actief voor deze sessie. Bij heropenen kan opnieuw kiezen nodig zijn.');return;}report('Exportmap gekoppeld: '+selected.name+'. PNG en WebM worden hier opgeslagen.');}catch(err){if(err.name!=='AbortError')report('Map niet gekoppeld: '+err.message);}}
+async function writableDirectory(){if(!exportDirectory)return null;try{const o={mode:'readwrite'};let status=await exportDirectory.queryPermission(o);if(status==='granted')return exportDirectory;if(typeof exportDirectory.requestPermission==='function'&&await exportDirectory.requestPermission(o)==='granted')return exportDirectory;}catch(err){report('Maptoegang moet opnieuw worden toegestaan: '+err.message);}return null;}
+async function saveExportBlob(blob,name,dir){if(dir){try{const h=await dir.getFileHandle(name,{create:true});const w=await h.createWritable();await w.write(blob);await w.close();report(name+' opgeslagen in map '+dir.name+'.');return true;}catch(err){report('Exportmap niet beschikbaar ('+err.message+'); gewone download gestart.');}}
+ download(blob,name);if(!dir)report(name+' gedownload. Kies eventueel eerst een exportmap.');return false;}
+function exportFilename(extension){const title=(boards[boardIndex]?.title||'Tactiekbord').replace(/[\/:*?"<>|]/g,'-').replace(/\s+/g,'_').slice(0,75);const d=new Date();const stamp=[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('')+'_'+[d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>String(n).padStart(2,'0')).join('');return 'PPA_'+title+'_'+stamp+'.'+extension;}
+
+function save(){storeBoard();const data={version:'PPA-Tactical-v5',date:new Date().toISOString(),boards:clone(boards),activeBoard:boardIndex,idSeq};download(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),'PPA-Tactical-Project-'+new Date().toISOString().slice(0,10)+'.json');report('Compleet project met '+boards.length+' bord(en) als JSON opgeslagen.');}
+function download(blob,name){const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500);}
+async function readFile(file){try{const d=JSON.parse(await file.text());stop();if(Array.isArray(d.boards)&&d.boards.length){if(d.boards.some(b=>!Array.isArray(b.frames)||!b.frames.length||!b.frames[0].players))throw Error('Project bevat een ongeldig bord');boards=clone(d.boards);boardIndex=clamp(d.activeBoard||0,0,boards.length-1);}else if(Array.isArray(d.frames)&&d.frames.length&&d.frames[0].players){boards=[{id:nextId(),title:'Bord 1 · Geïmporteerd uit v1',frames:clone(d.frames),settings:d.settings||{},orientation:d.orientation||'h',time:0,currentFrame:0,preset:'keeper'}];boardIndex=0;}else throw Error('Ongeldig projectbestand');idSeq=d.idSeq||Math.max(idSeq,300);const b=boards[boardIndex];frames=clone(b.frames);settings={lanes:false,flanks:true,halfspaces:true,axis:true,thirds:false,lines:false,zoneLabels:true,zoneShade:true,showNames:true,showNumbers:true,showBall:true,homeColor:home,awayColor:away,thirdColor:'#f0ae39',fieldLogo:'',fieldLogoOpacity:16,fieldLogoEnabled:true,...b.settings};orientation=b.orientation||'h';currentFrame=clamp(b.currentFrame||0,0,frames.length-1);time=b.time||0;history=[];selected=null;multiSelected.clear();pending=[];drag=null;syncAppearance();$('preset').value=templates[b.preset]?b.preset:'keeper';setOrientation(orientation,false);updateBoardTabs();updateUI();mark();report('Project geopend: '+file.name+' · '+boards.length+' borden.');}catch(err){report('Kon project niet openen: '+err.message);}}
+async function exportPng(){const directory=await writableDirectory();const previous=ctx;const img=document.createElement('canvas');img.width=W*2;img.height=H*2;ctx=img.getContext('2d');ctx.setTransform(2,0,0,2,0,0);exporting=true;try{render();const name=exportFilename('png');img.toBlob(blob=>{if(blob)saveExportBlob(blob,name,directory);else report('PNG-export mislukt.');},'image/png');}finally{exporting=false;ctx=previous;render();}}
+async function record(){if(!canvas.captureStream||typeof MediaRecorder==='undefined'){report('Video-export wordt niet ondersteund in deze browser. Gebruik Chrome of Edge.');return}const directory=await writableDirectory();ensurePaused();if(frames.length<2){report('Voeg eerst ten minste één animatiestap toe.');return}const button=$('record');button.disabled=true;button.textContent='● Opname bezig…';const restore=time;time=0;mark();const stream=canvas.captureStream(30);const mime=MediaRecorder.isTypeSupported('video/webm;codecs=vp9')?'video/webm;codecs=vp9':'video/webm';let rec;try{rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:4_000_000});}catch(e){button.disabled=false;button.textContent='● Exporteer animatie (WebM)';report('Video-export mislukt: '+e.message);return}const parts=[];rec.ondataavailable=e=>{if(e.data.size)parts.push(e.data)};rec.onstop=async()=>{try{await saveExportBlob(new Blob(parts,{type:'video/webm'}),exportFilename('webm'),directory);}finally{button.disabled=false;button.textContent='● Exporteer animatie (WebM)';time=restore;syncTime();mark();}};rec.start();let begin=performance.now();function step(now){time=clamp((now-begin)/1000,0,endTime());syncTime();render();if(time<endTime())requestAnimationFrame(step);else{setTimeout(()=>rec.state==='recording'&&rec.stop(),180);}}requestAnimationFrame(step);}
+function openMagnetEditor(player){
+ if(!player)return;closeTextEditor();ensurePaused();
+ magnetDialog={id:player.id};setSingle('player',player.id);
+ const popup=$('magnetPopup'),wrap=canvas.parentElement,cr=canvas.getBoundingClientRect(),wr=wrap.getBoundingClientRect(),loc=map(player);
+ const x=cr.left-wr.left+loc.x*cr.width/W,y=cr.top-wr.top+loc.y*cr.height/H;
+ popup.style.left=clamp(x+18,10,Math.max(10,wr.width-307))+'px';
+ popup.style.top=clamp(y-18,5,Math.max(5,wr.height-166))+'px';
+ $('magnetCode').value=String(player.number??'').slice(0,3);popup.classList.remove('hide');
+ $('magnetCode').focus();$('magnetCode').select();
+}
+function closeMagnetEditor(){magnetDialog=null;$('magnetPopup').classList.add('hide');}
+function saveMagnetEditor(){
+ if(!magnetDialog)return;
+ const code=$('magnetCode').value.trim().toUpperCase().slice(0,3);
+ if(!/^[\p{L}\p{N}]{1,3}$/u.test(code)){report('Gebruik 1 tot 3 letters of cijfers (bijvoorbeeld 27, AB of GK).');$('magnetCode').focus();return;}
+ const id=magnetDialog.id;closeMagnetEditor();ensureEditFrame();snapshot();
+ for(const f of frames){const p=f.players.find(p=>p.id===id);if(p)p.number=code;}
+ selectionUI();mark();report('Magneet aangepast naar '+code+' in alle animatiestappen.');
+}
+$('magnetSave').onclick=saveMagnetEditor;$('magnetCancel').onclick=closeMagnetEditor;
+$('magnetCode').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveMagnetEditor();}else if(e.key==='Escape'){e.stopPropagation();closeMagnetEditor();}});
+function openTextEditor({point=null,playerId=null,shapeId=null,text=''}){
+ensurePaused();const o=shapeId?active().objects.find(o=>o.id===shapeId):null;
+if(shapeId&&!o)return;
+let p=point;
+if(o){if(o.type==='playerNote'){playerId=o.playerId;const player=active().players.find(p=>p.id===playerId);p=player?{x:player.x,y:player.y}:null;}else p=o.a;text=o.text||'';}
+if(!p)return;
+textDialog={point:p,shapeId:shapeId||null,playerId:playerId||null};
+if(!p&&o)p=shapeCenter(o,getState(time))||o.a||{x:.5,y:.5};textDialog.point=p;
+const popup=$('textPopup'),wrap=canvas.parentElement,cr=canvas.getBoundingClientRect(),wr=wrap.getBoundingClientRect(),loc=map(p);
+const x=cr.left-wr.left+loc.x*cr.width/W;const y=cr.top-wr.top+loc.y*cr.height/H;
+popup.style.left=clamp(x+14,10,Math.max(10,wr.width-338))+'px';
+popup.style.top=clamp(y-17,6,Math.max(6,wr.height-159))+'px';
+$('textPopupTitle').textContent=o?'Tekst bewerken':playerId?'Tekst bij speler toevoegen':'Tekst op het bord toevoegen';
+$('floatingText').value=text||o?.text||'';
+$('textAttachRow').classList.toggle('hide',!playerId);
+$('textAttach').checked=!!(o?.type==='playerNote'||(!o&&playerId));
+popup.classList.remove('hide');
+$('floatingText').focus();$('floatingText').select();
+}
+function closeTextEditor(){textDialog=null;$('textPopup').classList.add('hide');}
+function saveTextEditor(){if(!textDialog)return;const content=$('floatingText').value.trim().slice(0,95);if(!content){$('floatingText').focus();report('Vul eerst tekst in.');return;}
+const {point,playerId,shapeId}=textDialog;
+const linked=!!(playerId&&$('textAttach').checked);
+closeTextEditor();ensureEditFrame();
+if(shapeId){snapshot();for(const f of frames){const o=f.objects.find(o=>o.id===shapeId);if(!o)continue;o.text=content;if(linked&&o.type==='text'){o.type='playerNote';o.playerId=playerId;o.offset={x:0,y:-48};delete o.a;}else if(!linked&&o.type==='playerNote'){o.type='text';o.a=clone(point);delete o.playerId;delete o.offset;}}setSingle('shape',shapeId);report('Tekst aangepast.');updateUI();mark();}
+else addShape(linked?{type:'playerNote',playerId,offset:{x:0,y:-48},text:content}:{type:'text',a:point,text:content});toolCompleted();
+}
+$('textPopupCancel').onclick=closeTextEditor;$('textPopupSave').onclick=saveTextEditor;
+$('floatingText').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveTextEditor()}else if(e.key==='Escape'){e.stopPropagation();closeTextEditor()}});
+
+function closeShapeEditor(){shapeDialog=null;$('shapePopup').classList.add('hide');}
+function openShapeEditor(o,location=null){
+ if(!o)return;ensurePaused();closeMagnetEditor();closeTextEditor();closeShapeEditor();setSingle('shape',o.id);
+ const state=getState(time),world=shapeCenter(o,state)||o.a||{x:.5,y:.5},position=location||map(world),popup=$('shapePopup'),wrap=canvas.parentElement;
+ const cr=canvas.getBoundingClientRect(),wr=wrap.getBoundingClientRect();let x=cr.left-wr.left+(position.x/W)*cr.width+18,y=cr.top-wr.top+(position.y/H)*cr.height-16;
+ popup.style.left=clamp(x,6,Math.max(6,wr.width-323))+'px';popup.style.top=clamp(y,5,Math.max(5,wr.height-330))+'px';
+ shapeDialog={id:o.id};$('shapePopupTitle').textContent=({arrow:'Pijl',rect:'Zone',polygon:'Vrije zone',linked:'Meebewegende zone',linkedLine:'Gekoppelde linielijn',fieldLine:'Veldlijn',cone:'Pion',dummy:'Slalomstok',trainingGoal:'Doel',text:'Tekst',playerNote:'Spelerslabel'})[o.type]+' bewerken';
+ $('shapeColor').value=o.color||gold;$('shapeWidth').value=clamp(o.width||4,1,14);$('shapeWidthValue').textContent=(o.width||4)+' px';
+ $('shapeDash').value=o.dashed?'dashed':'solid';$('shapeDashRow').classList.toggle('hide',!['arrow','fieldLine','linkedLine','linked','polygon','rect'].includes(o.type));
+ $('shapeLabelRow').classList.toggle('hide',!['arrow','fieldLine','linkedLine','linked','rect','polygon'].includes(o.type));$('shapeLabel').value=o.label||'';
+ popup.classList.remove('hide');
+}
+function saveShapeEditor(){if(!shapeDialog)return;const id=shapeDialog.id,color=$('shapeColor').value,width=+$('shapeWidth').value,dashed=$('shapeDash').value==='dashed',label=$('shapeLabel').value.trim().slice(0,95);ensurePaused();ensureEditFrame();snapshot();for(const f of frames){const o=f.objects.find(x=>x.id===id);if(o){o.color=color;o.width=width;if(['arrow','fieldLine','linkedLine','linked','polygon','rect'].includes(o.type))o.dashed=dashed;if(['arrow','fieldLine','linkedLine','linked','rect','polygon'].includes(o.type))o.label=label;}}closeShapeEditor();setSingle('shape',id);mark();report('Opmaak opgeslagen in alle animatiestappen. Gekoppelde labels bewegen mee met de zone.');}
+$('shapeWidth').addEventListener('input',e=>$('shapeWidthValue').textContent=e.target.value+' px');
+$('shapeSave').onclick=saveShapeEditor;$('shapeCancel').onclick=closeShapeEditor;
+for(const btn of document.querySelectorAll('[data-popup-color]'))btn.onclick=()=>{const kind=btn.dataset.popupColor;$('shapeColor').value=kind==='home'?settings.homeColor:kind==='away'?settings.awayColor:kind==='third'?settings.thirdColor:gold;};
+$('shapeLabel').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveShapeEditor()}});
+
+$('addPlayerLabel').onclick=()=>{if(selected?.type!=='player'){report('Selecteer eerst een speler om er tekst aan te koppelen.');return;}const p=active().players.find(p=>p.id===selected.id);if(p)openTextEditor({point:{x:p.x,y:p.y},playerId:p.id});};
+$('togglePlayerGlow').onclick=()=>{if(selected?.type!=='player'){report('Selecteer eerst een magneet om die te highlighten.');return;}ensureEditFrame();snapshot();for(const f of frames){const p=f.players.find(p=>p.id===selected.id);if(p)p.glow=!p.glow;}selectionUI();mark();report('Oplichtende highlight aangepast voor deze speler.');};
+$('tools').querySelectorAll('[data-tool]').forEach(b=>{b.onclick=()=>setTool(b.dataset.tool);b.ondblclick=e=>{e.preventDefault();setTool(b.dataset.tool,{sticky:true});report('Herhaalmodus voor '+b.textContent.trim()+' actief. Klik Selecteren om te stoppen.');};});$('finish').onclick=finalize;$('cancel').onclick=()=>{pending=[];drag=null;mark()};$('landscape').onclick=()=>setOrientation('h');$('portrait').onclick=()=>setOrientation('v');
+for(const k in settings){const el=$(k);if(el&&el.type==='checkbox')el.addEventListener('change',()=>{settings[k]=el.checked;mark()});}
+for(const team of ['red','white','third']){const key=team==='red'?'homeColor':team==='white'?'awayColor':'thirdColor';$(key).addEventListener('input',e=>colorTeam(team,e.target.value));}
+document.querySelectorAll('[data-team] [data-color]').forEach(btn=>btn.addEventListener('click',()=>colorTeam(btn.closest('[data-team]').dataset.team,btn.dataset.color)));
+$('putBall').onclick=()=>setTool('ball');
+for(const [id,t] of [['quickCone','cone'],['quickDummy','dummy'],['quickGoal','trainingGoal'],['quickFieldLine','fieldLine']]){const b=$(id);b.onclick=()=>setTool(t);b.ondblclick=()=>setTool(t,{sticky:true});}
+function updateGoalSizeLabel(){const v=Number($('goalSize').value);$('goalSizeLabel').textContent=v<8?'Klein (minigoal)':v>15?'Groot doel':'Middelgroot';}
+function editSelectedGoal(prop,val){if(selected?.type!=='shape')return;const obj=active().objects.find(o=>o.id===selected.id);if(obj?.type!=='trainingGoal')return;ensurePaused();ensureEditFrame();snapshot();for(const f of frames){const g=f.objects.find(o=>o.id===obj.id);if(g)g[prop]=val;}mark();report('Grootte of oriëntatie van het geselecteerde trainingsdoel aangepast.');}
+$('goalSize').addEventListener('change',e=>{updateGoalSizeLabel();editSelectedGoal('size',Number(e.target.value)/100);});
+$('goalSize').addEventListener('input',updateGoalSizeLabel);
+$('goalRotation').addEventListener('change',e=>editSelectedGoal('rotation',Number(e.target.value)));
+updateGoalSizeLabel();
+
+function chooseLineColor(kind){
+ const color=kind==='home'?(settings.homeColor||home):kind==='away'?(settings.awayColor||away):kind==='third'?(settings.thirdColor||'#f0ae39'):gold;
+ $('objectColor').value=color;
+ const ids=new Set([...multiSelected].filter(k=>k.startsWith('s:')).map(k=>k.slice(2)));
+ if(selected?.type==='shape')ids.add(selected.id);
+ if(ids.size){ensurePaused();ensureEditFrame();snapshot();for(const f of frames)for(const obj of f.objects)if(ids.has(obj.id))obj.color=color;
+ report(ids.size+' geselecteerde tekening(en) in deze kleur gezet.');}
+ else report('Teken-/lijnkleur ingesteld. Nieuwe pijlen en zones gebruiken deze kleur.');
+ mark();
+}
+for(const btn of document.querySelectorAll('[data-linecolor]'))btn.addEventListener('click',()=>chooseLineColor(btn.dataset.linecolor));
+$('applyHomeFormation').onclick=()=>applyFormation('red',$('homeFormation').value);
+$('applyAwayFormation').onclick=()=>applyFormation('white',$('awayFormation').value);
+$('homeFormation').onchange=()=>{settings.formationHome=$('homeFormation').value;};
+$('awayFormation').onchange=()=>{settings.formationAway=$('awayFormation').value;};
+$('homeDepth').onchange=()=>{settings.depthHome=$('homeDepth').value;};
+$('awayDepth').onchange=()=>{settings.depthAway=$('awayDepth').value;};
+$('viewMode').onchange=e=>setViewMode(e.target.value);
+$('fitHalf').onclick=fitHalf;
+$('chooseFolder').onclick=chooseExportDirectory;
+restoreExportDirectory();
+// Accordion: show only one menu at a time, but allow closing all.
+for(const panel of document.querySelectorAll('.sidefold'))panel.addEventListener('toggle',()=>{
+ if(panel.open)for(const other of document.querySelectorAll('.sidefold'))if(other!==panel&&other.open)other.open=false;
+});
+$('applyPreset').onclick=applyPreset;$('addFrame').onclick=addFrame;$('removeFrame').onclick=deleteFrame;$('play').onclick=play;$('previous').onclick=()=>gotoFrame(currentFrame-1);$('next').onclick=()=>gotoFrame(currentFrame+1);
+$('scrub').addEventListener('input',e=>{ensurePaused();time=+e.target.value;syncTime();mark()});
+$('deleteObject').onclick=removeSelected;$('undo').onclick=undo;$('save').onclick=save;$('load').onclick=()=>$('openFile').click();$('openFile').onchange=e=>{const f=e.target.files?.[0];if(f)readFile(f);e.target.value=''};
+$('newProject').onclick=()=>addBoard();$('addBoard').onclick=()=>addBoard();$('addBlankBoard').onclick=()=>addBoard(true);$('deleteBoard').onclick=deleteBoard;$('boardName').addEventListener('change',renameBoard);$('boardName').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();renameBoard();$('boardName').blur()}});
+$('clearBoard').onclick=clearCurrentBoard;
+$('selectionFilter').onchange=e=>{selectionFilter=e.target.value;multiSelected.clear();selected=null;selectionUI();mark();report(selectionFilter==='all'?'Alle partijen zijn selecteerbaar.':'Selectie beperkt tot '+e.target.selectedOptions[0].text.toLowerCase()+'.');};
+$('objectColor').addEventListener('input',e=>recolorSelected(e.target.value));$('objectColor').addEventListener('change',()=>{liveColorTransaction=false;});
+
+function makeBoardImageBlob(){const previous=ctx,oldExport=exporting;const off=document.createElement('canvas');off.width=W*2;off.height=H*2;ctx=off.getContext('2d');ctx.setTransform(2,0,0,2,0,0);exporting=true;try{render();}finally{exporting=oldExport;ctx=previous;render();}return new Promise((resolve,reject)=>off.toBlob(b=>b?resolve(b):reject(Error('PNG kon niet worden gemaakt')),'image/png'));}
+async function copyBoardImage(){hideContextMenu();try{
+ if(!navigator.clipboard?.write||!window.ClipboardItem)throw Error('Klembord niet beschikbaar. Gebruik de offline starter in Chrome/Edge via localhost.');
+ // Start clipboard write in a trusted click handler; browser may request permission.
+ const pendingBlob=makeBoardImageBlob();await navigator.clipboard.write([new ClipboardItem({'image/png':pendingBlob})]);
+ report('Bord als PNG naar klembord gekopieerd. Plak met Ctrl+V in PowerPoint of Word.');
+ }catch(error){report('Kopiëren naar klembord geblokkeerd: '+error.message+'. Gebruik 📷 PNG als alternatief.');}
+}
+function selectedForCopy(){const keys=new Set(multiSelected);if(!keys.size&&selected?.type==='player')keys.add('p:'+selected.id);if(!keys.size&&selected?.type==='shape')keys.add('s:'+selected.id);const f=getState(time);return {players:f.players.filter(p=>keys.has('p:'+p.id)),objects:f.objects.filter(o=>keys.has('s:'+o.id))};}
+function copyElements(){const data=selectedForCopy();if(!data.players.length&&!data.objects.length){report('Selecteer eerst magneten of tekeningen om te kopiëren.');return false;}copyBuffer=clone(data);pasteCount=0;report(data.players.length+' speler(s) en '+data.objects.length+' object(en) gekopieerd. Ctrl+V om te plakken.');return true;}
+function pasteElements(){if(!copyBuffer){report('Selecteer eerst één of meer elementen en druk Ctrl+C.');return;}ensurePaused();ensureEditFrame();snapshot();pasteCount++;const delta=.025*pasteCount,ids=new Map(),payload=clone(copyBuffer),addedP=[],addedO=[];
+ for(const p of payload.players){const old=p.id;p.id=nextId();ids.set(old,p.id);p.x=clamp(p.x+delta,0,1);p.y=clamp(p.y+delta,0,1);addedP.push(p);}
+ for(const o of payload.objects){o.id=nextId();if(o.playerId&&ids.has(o.playerId))o.playerId=ids.get(o.playerId);if(o.anchors)o.anchors=o.anchors.map(id=>ids.get(id)||id);if(o.a){o.a.x=clamp(o.a.x+delta,0,1);o.a.y=clamp(o.a.y+delta,0,1);}if(o.b){o.b.x=clamp(o.b.x+delta,0,1);o.b.y=clamp(o.b.y+delta,0,1);}if(o.points)o.points=o.points.map(p=>({x:clamp(p.x+delta,0,1),y:clamp(p.y+delta,0,1)}));addedO.push(o);}
+ for(let i=currentFrame;i<frames.length;i++){frames[i].players.push(...clone(addedP));frames[i].objects.push(...clone(addedO));}
+ multiSelected=new Set([...addedP.map(p=>'p:'+p.id),...addedO.map(o=>'s:'+o.id)]);const first=[...multiSelected][0];if(first)selected={type:first.startsWith('p:')?'player':'shape',id:first.slice(2)};selectionUI();updateUI();mark();report('Geselecteerde elementen geplakt, iets verschoven zodat je ze direct kunt verslepen.');}
+function cutElements(){if(copyElements())removeSelected();}
+function hideContextMenu(){$('boardContextMenu').classList.add('hide');}
+canvas.addEventListener('contextmenu',e=>{e.preventDefault();ensurePaused();const host=canvas.parentElement,cr=host.getBoundingClientRect(),menu=$('boardContextMenu');menu.classList.remove('hide');menu.style.left=clamp(e.clientX-cr.left,8,Math.max(8,host.clientWidth-278))+'px';menu.style.top=clamp(e.clientY-cr.top,8,Math.max(8,host.clientHeight-143))+'px';});
+document.addEventListener('pointerdown',e=>{if(!e.target.closest('#boardContextMenu')&&e.button!==2)hideContextMenu();});
+$('contextCopyImage').onclick=copyBoardImage;$('copyPng').onclick=copyBoardImage;$('contextCopyObjects').onclick=()=>{copyElements();hideContextMenu();};$('contextPasteObjects').onclick=()=>{pasteElements();hideContextMenu();};
+
+$('png').onclick=exportPng;$('quickPng').onclick=exportPng;$('record').onclick=record;
+$('addRed').onclick=()=>{ensureEditFrame();snapshot();const players=active().players.filter(p=>p.team==='red');const n=players.reduce((a,p)=>Math.max(a,Number.isFinite(Number(p.number))?Number(p.number):0),0)+1;{const added=mkP('red',n,.5,.4);for(let i=currentFrame;i<frames.length;i++)frames[i].players.push(clone(added));}updateUI();mark()};
+$('addWhite').onclick=()=>{ensureEditFrame();snapshot();const players=active().players.filter(p=>p.team==='white');const n=players.reduce((a,p)=>Math.max(a,Number.isFinite(Number(p.number))?Number(p.number):0),0)+1;{const added=mkP('white',n,.5,.6);for(let i=currentFrame;i<frames.length;i++)frames[i].players.push(clone(added));}updateUI();mark()};
+$('addThird').onclick=()=>{ensurePaused();ensureEditFrame();snapshot();const players=active().players.filter(p=>p.team==='third');const code=String(players.length+1);const added=mkP('third',code,.50,.2+Math.min(players.length,8)*.065);for(let i=currentFrame;i<frames.length;i++)frames[i].players.push(clone(added));setSingle('player',added.id);updateUI();mark();report('Magneet van derde partij toegevoegd. Dubbelklik om de letters of het nummer te wijzigen.');};
+$('applyPlayerName').onclick=()=>{if(selected?.type!=='player'){report('Selecteer eerst een speler om zijn naam in te vullen.');return}ensurePaused();ensureEditFrame();const player=active().players.find(p=>p.id===selected.id);if(!player)return;const name=$('playerName').value.trim().slice(0,45);snapshot();for(const f of frames){const p=f.players.find(p=>p.id===selected.id);if(p)p.name=name;}settings.showNames=true;$('showNames').checked=true;updateUI();mark();report('Naam '+(name||'gewist')+' bij magneet '+player.number+'.');};$('playerName').addEventListener('keydown',e=>{if(e.key==='Enter'){$('applyPlayerName').click();$('playerName').blur()}});
+$('updateText').onclick=()=>{if(!selected||selected.type==='ball'){report('Selecteer eerst één of meer tekeningen.');return;}const ids=[...multiSelected].filter(k=>k.startsWith('s:')).map(k=>k.slice(2));if(selected.type==='shape'&&!ids.includes(selected.id))ids.push(selected.id);if(!ids.length){report('Selecteer een pijl, tekst of zone om opmaak te wijzigen.');return;}ensurePaused();ensureEditFrame();snapshot();for(const f of frames){for(const o of f.objects){if(!ids.includes(o.id))continue;if((o.type==='text'||o.type==='playerNote')&&$('objectText').value.trim())o.text=$('objectText').value.trim().slice(0,95);o.color=$('objectColor').value;o.width=+$('lineWidth').value;if(o.type==='arrow'||o.type==='linkedLine'||o.type==='fieldLine')o.dashed=$('arrowStyle').value==='dashed';}}updateUI();mark();report('Opmaak aangepast voor '+ids.length+' element(en).');};
+$('selectRed').onclick=()=>selectTeam('red');$('selectWhite').onclick=()=>selectTeam('white');$('selectThird').onclick=()=>selectTeam('third');
+function selectTeam(team){setTool('select');selectionFilter=team;$('selectionFilter').value=team;const ps=getState(time).players.filter(p=>p.team===team);multiSelected=new Set(ps.map(p=>'p:'+p.id));if(ps.length)selected={type:'player',id:ps[0].id};else selected=null;selectionUI();mark();report(ps.length+' magneten geselecteerd. Sleep er één om de hele ploeg te verplaatsen.');}
+canvas.addEventListener('pointerdown',onDown);canvas.addEventListener('pointermove',onMove);canvas.addEventListener('pointerup',onUp);canvas.addEventListener('pointercancel',()=>drag=null);
+canvas.addEventListener('dblclick',e=>{e.preventDefault();if(tool==='polygon'||tool==='linkedLine'||tool==='linked'){finalize();return;}if(tool!=='select')return;const s=canvasPoint(e);const p=selectionFilter==='objects'?null:playerAt(s,selectionFilter);if(p){openMagnetEditor(p);return;}const shape=shapeAt(s);if(!shape)return;if(shape.type==='text'||shape.type==='playerNote'){const world=shapeCenter(shape,getState(time))||shape.a;openTextEditor({shapeId:shape.id,point:world,text:shape.text||''});return;}openShapeEditor(shape,s);report('Dubbelklik: wijzig kleur, dikte, lijnstijl en optioneel meebewegende tekst.');});
+
+function startPresentation(){if(presentationMode)return;closeTextEditor();closeMagnetEditor();closeShapeEditor();hideContextMenu();presentationMode=true;presentationFullscreen=false;document.body.style.overflow='hidden';$('presentationOverlay').classList.remove('hide');render();const el=$('presentationOverlay');if(el.requestFullscreen){el.requestFullscreen().then(()=>{presentationFullscreen=true;}).catch(()=>{/* Ingebedde of lokale browsers kunnen fullscreen beperken. De overlay blijft werken. */});}}
+function stopPresentation(){if(!presentationMode)return;presentationMode=false;document.body.style.overflow='';$('presentationOverlay').classList.add('hide');if(document.fullscreenElement===$('presentationOverlay'))document.exitFullscreen().catch(()=>{});presentationFullscreen=false;mark();}
+$('present').onclick=startPresentation;
+$('exitPresentation').onclick=stopPresentation;
+document.addEventListener('fullscreenchange',()=>{if(presentationMode&&presentationFullscreen&&document.fullscreenElement!==$('presentationOverlay'))stopPresentation();});
+$('fieldLogoUpload').onchange=e=>uploadFieldLogo(e.target.files?.[0]);
+$('removeFieldLogo').onclick=()=>{settings.fieldLogo='';logoImageSrc='';logoImage=null;$('fieldLogoUpload').value='';mark();report('Logo van het veld verwijderd.');};
+$('fieldLogoEnabled').onchange=e=>{settings.fieldLogoEnabled=e.target.checked;mark();};
+$('fieldLogoOpacity').oninput=e=>{settings.fieldLogoOpacity=Number(e.target.value);$('fieldLogoOpacityLabel').textContent=e.target.value+'%';mark();};
+
+window.addEventListener('keydown',e=>{const typing=['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName),key=e.key.toLowerCase(),mod=e.ctrlKey||e.metaKey;
+ if(presentationMode){if(e.code==='Space'||e.key===' '){e.preventDefault();play();}else if(e.key==='Escape'){e.preventDefault();stopPresentation();}return;}
+ if(!typing&&mod&&key==='c'){e.preventDefault();copyElements();}
+ else if(!typing&&mod&&key==='v'){e.preventDefault();pasteElements();}
+ else if(!typing&&mod&&key==='x'){e.preventDefault();cutElements();}
+ else if(mod&&key==='z'){e.preventDefault();undo();}
+ else if(!typing&&e.key==='Enter'&&(tool==='linked'||tool==='linkedLine'||tool==='polygon')){e.preventDefault();finalize();}
+ else if(!typing&&e.key==='Escape'){closeMagnetEditor();closeShapeEditor();hideContextMenu();pending=[];drag=null;multiSelected.clear();selected=null;selectionUI();mark();}
+ else if(!typing&&(e.key==='Delete'||(e.shiftKey&&e.key==='Delete')||e.key==='Backspace')){e.preventDefault();removeSelected();}
+ else if(!typing&&e.key===' '){e.preventDefault();play();}
+});
+
+const autosaveKey='ppa-tactical-personal-v1';
+let autosaveTimer, autosaveReady=false;
+function saveLocally(){
+ if(!autosaveReady)return;
+ clearTimeout(autosaveTimer);
+ try{storeBoard();localStorage.setItem(autosaveKey,JSON.stringify({version:'PPA-Tactical-v5',boards,activeBoard:boardIndex,idSeq}));$('autosaveStatus').textContent='✓ Lokaal bewaard';}
+ catch(e){$('autosaveStatus').textContent='Bewaren mislukt · sla JSON op';}
+}
+function scheduleAutosave(){if(autosaveReady){$('autosaveStatus').textContent='Wijzigingen bewaren…';clearTimeout(autosaveTimer);autosaveTimer=setTimeout(saveLocally,500);}}
+async function restoreLocally(){
+ try{const saved=localStorage.getItem(autosaveKey);if(saved){const d=JSON.parse(saved);if(!Array.isArray(d.boards)||!d.boards.length||d.boards.some(b=>!Array.isArray(b.frames)||!b.frames.length||!Array.isArray(b.frames[0].players)))throw Error('Ongeldig lokaal project');await readFile(new File([saved],'Automatisch bewaard project.json',{type:'application/json'}));$('autosaveStatus').textContent='✓ Lokaal project hersteld';}}
+ catch(e){$('autosaveStatus').textContent='Herstel mislukt · open je JSON-back-up';return;}
+ autosaveReady=true;
+}
+window.addEventListener('pagehide',saveLocally);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)saveLocally();});
+
+reset();restoreLocally();setTool('select');report('Gereed · selecteer een formatie of maak een bord.');
+})();
+</script>
+</body></html>
